@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="6d3b4d65-f452-4893-a281-2c451dfbb799" name="hibernate.cfg.xml/Hibernate Mapping">
+      <data-sources db="49753d12-dc03-4a25-b2de-5f295ea16b98" ddl="20701a64-4dfe-489d-adab-caa7efb2e3a9" />
+      <scope>
+        <node kind="schema" qname="lango" />
+      </scope>
+    </mapping>
+    <mapping uuid="fafea1ca-ebab-422c-a8db-b0c399f8fb91" name="mysql@localhost Mapping">
+      <data-sources db="2962277c-ec17-4a0d-bccd-d4e1c162548c" />
+      <scope>
+        <node kind="schema" qname="lango" />
+      </scope>
+    </mapping>
+  </component>
+</project>
