@@ -72,7 +72,12 @@ public class AdminFuncionariosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         carregarTableViewFuncionario();
+
+        tableViewFuncionarios.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> selecionarItemTableViewFuncionarios(newValue));
+
     }
     public void carregarTableViewFuncionario() {
         nome.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("nome").getAsString()));
@@ -92,6 +97,31 @@ public class AdminFuncionariosController implements Initializable {
 
         tableViewFuncionarios.setItems(observableListFuncionarios);
     }
+
+    public void selecionarItemTableViewFuncionarios(JsonObject obj){
+
+        if(obj != null) {
+            outputNome.setText(String.valueOf(obj.get("nome").getAsString()));
+            outputEmail.setText(String.valueOf(obj.get("email").getAsString()));
+            outputIdade.setText(String.valueOf(obj.get("idade").getAsString()));
+            outputFuncao.setText(String.valueOf(obj.get("func").getAsString()));
+            outputTelefone1.setText(String.valueOf(obj.get("tel1").getAsString()));
+            try {
+                outputTelefone2.setText(String.valueOf(obj.get("tel2").getAsString()));
+            } catch (UnsupportedOperationException nulo) {
+                outputTelefone2.setText("");
+            }
+        }else{
+            outputNome.setText("");
+            outputEmail.setText("");
+            outputIdade.setText("");
+            outputFuncao.setText("");
+            outputTelefone1.setText("");
+            outputTelefone2.setText("");
+        }
+    }
+
+
 
     public void setApp(App app) {
         this.app = app;

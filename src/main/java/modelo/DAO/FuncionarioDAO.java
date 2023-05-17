@@ -68,9 +68,13 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
             "SELECT " +
                         "JSON_ARRAYAGG( " +
                             "JSON_OBJECT( "+
+                                "'idFuncionario', f.idFunc, "+
                                 "'nome', p.nome, " +
                                 "'email', p.email, " +
-                                "'func', f.func" +
+                                "'idade', p.email, " +
+                                "'func', f.func, " +
+                                "'tel1', p.tel1, " +
+                                "'tel2', p.tel2 " +
                             ")" +
                         ")" +
                         "FROM Funcionario f " +
