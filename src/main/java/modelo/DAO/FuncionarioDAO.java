@@ -1,5 +1,8 @@
 package modelo.DAO;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import modelo.VO.Funcionario;
 
 import jakarta.persistence.*;
@@ -57,6 +60,22 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
     @Override
     public List<Funcionario> findAll() {
         return this.entityManager.createQuery("SELECT f FROM Funcionario f", Funcionario.class).getResultList();
+    }
+
+    public JsonArray exibir(){
+        return new Gson().fromJson(
+                this.entityManager.createQuery(
+            "SELECT " +
+                        "JSON_ARRAYAGG( " +
+                            "JSON_OBJECT( "+
+                                "'nome', p.nome, " +
+                                "'email', p.email, " +
+                                "'func', f.func" +
+                            ")" +
+                        ")" +
+                        "FROM Funcionario f " +
+                        "INNER JOIN Pessoa p on p.idPessoa = f.pessoa.id ", String.class).getSingleResult(),
+                JsonArray.class);
     }
 
 }

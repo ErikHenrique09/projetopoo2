@@ -14,7 +14,7 @@ module application {
     requires annotations;
 
     opens application to javafx.fxml;
-    opens modelo.VO to org.hibernate.orm.core;
+    opens modelo.VO;
 
     exports application;
 }
