@@ -1,8 +1,8 @@
 package modelo.DAO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import modelo.VO.Mesa;
-
-import jakarta.persistence.*;
 import util.CRUD;
 import util.ConexaoHibernate;
 
@@ -49,7 +49,7 @@ public class MesaDAO implements CRUD<Mesa> {
 
     @Override
     public Mesa find(Integer id) {
-        return this.entityManager.createQuery("SELECT m FROM Mesa m WHERE m.id ="+id, Mesa.class).getSingleResult();
+        return this.entityManager.createQuery("SELECT m FROM Mesa m WHERE m.id =" + id, Mesa.class).getSingleResult();
     }
 
     @Override

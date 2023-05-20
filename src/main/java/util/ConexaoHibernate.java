@@ -11,11 +11,9 @@ public class ConexaoHibernate {
 
     public static EntityManager getInstance() {
 
-        if (manager == null)
-        {
+        if (manager == null) {
             synchronized (ConexaoHibernate.class) {
-                if (manager == null)
-                {
+                if (manager == null) {
                     try {
                         factory = Persistence.createEntityManagerFactory("lango");
                         manager = factory.createEntityManager();

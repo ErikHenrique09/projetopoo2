@@ -2,10 +2,9 @@ package modelo.DAO;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import modelo.VO.Funcionario;
-
-import jakarta.persistence.*;
 import util.CRUD;
 import util.ConexaoHibernate;
 
@@ -15,9 +14,11 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
 
     EntityManager entityManager;
 
-    public FuncionarioDAO() { this.entityManager = ConexaoHibernate.getInstance(); }
+    public FuncionarioDAO() {
+        this.entityManager = ConexaoHibernate.getInstance();
+    }
 
-    public void assignFunction(){
+    public void assignFunction() {
 
     }
 
@@ -54,7 +55,11 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
 
     @Override
     public Funcionario find(Integer id) {
-        return this.entityManager.createQuery("SELECT f FROM Funcionario f WHERE f.id ="+id, Funcionario.class).getSingleResult();
+        Funcionario func = this.entityManager.createQuery("SELECT f FROM Funcionario f WHERE f.id =" + id, Funcionario.class).getSingleResult();
+
+        System.out.println(func.getPessoa().getNome());
+
+        return func;
     }
 
     @Override
@@ -62,23 +67,24 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
         return this.entityManager.createQuery("SELECT f FROM Funcionario f", Funcionario.class).getResultList();
     }
 
-    public JsonArray exibir(){
+    public JsonArray exibir() {
         return new Gson().fromJson(
                 this.entityManager.createQuery(
-            "SELECT " +
-                        "JSON_ARRAYAGG( " +
-                            "JSON_OBJECT( "+
-                                "'idFuncionario', f.idFunc, "+
+                        "SELECT " +
+                                "JSON_ARRAYAGG( " +
+                                "JSON_OBJECT( " +
+                                "'idFuncionario', f.idFunc, " +
+                                "'idPessoa', p.idPessoa, " +
                                 "'nome', p.nome, " +
                                 "'email', p.email, " +
                                 "'idade', p.email, " +
                                 "'func', f.func, " +
                                 "'tel1', p.tel1, " +
                                 "'tel2', p.tel2 " +
-                            ")" +
-                        ")" +
-                        "FROM Funcionario f " +
-                        "INNER JOIN Pessoa p on p.idPessoa = f.pessoa.id ", String.class).getSingleResult(),
+                                ")" +
+                                ")" +
+                                "FROM Funcionario f " +
+                                "INNER JOIN Pessoa p on p.idPessoa = f.pessoa.id ", String.class).getSingleResult(),
                 JsonArray.class);
     }
 

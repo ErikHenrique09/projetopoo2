@@ -8,7 +8,7 @@ public class CaixaRN {
     public void validarCaixa(Caixa caixa) throws Exception {
         CaixaDAO caixaDAO = new CaixaDAO();
 
-        if(!caixaDAO.validaCaixa(caixa)){
+        if (!caixaDAO.validaCaixa(caixa)) {
             throw new Exception("O caixa de hoje ja esta criado");
         }
 

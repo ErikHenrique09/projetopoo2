@@ -2,14 +2,17 @@ package modelo.VO;
 
 import jakarta.persistence.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Entity
 
 @Table(name = "Pedido")
 public class Pedido {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPedido;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -32,6 +35,9 @@ public class Pedido {
 
     @Column(name = "fimPedido", nullable = true)
     private Calendar fimPedido;
+
+    @Column(name = "status", columnDefinition = "1")
+    private Integer status;
 
     public Pedido() {
         this.iniPedido = Calendar.getInstance();
@@ -89,5 +95,13 @@ public class Pedido {
 
     public void setFimPedido(Calendar fimPedido) {
         this.fimPedido = fimPedido;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

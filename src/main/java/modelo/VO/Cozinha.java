@@ -2,14 +2,15 @@ package modelo.VO;
 
 import jakarta.persistence.*;
 
-import java.util.*;
+import java.util.Calendar;
 
 @Entity
 
 @Table(name = "Cozinha")
 public class Cozinha {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCozinha;
 
     private Calendar date;

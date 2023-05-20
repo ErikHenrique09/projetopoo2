@@ -15,6 +15,7 @@ module application {
 
     opens application to javafx.fxml;
     opens modelo.VO;
+    opens util;
 
     exports application;
 }

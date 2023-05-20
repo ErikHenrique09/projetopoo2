@@ -3,91 +3,169 @@ package application;
 import jakarta.persistence.NoResultException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import modelo.DAO.FuncionarioDAO;
 import modelo.DAO.PessoaDAO;
 import modelo.RN.PessoaRN;
-import modelo.VO.Funcionario;
 import modelo.VO.Pessoa;
+import util.errors;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CadastroFuncionarioController implements Initializable {
+public class CadastroFuncionarioController extends errors implements Initializable {
 
+    private String idPessoa = null;
+
+    private Pessoa pessoa;
     private App app; // Referência para a classe App
+    @FXML
+    private TextField inputNome;
+    @FXML
+    private TextField inputSobrenome;
+    @FXML
+    private TextField inputIdade;
+    @FXML
+    private TextField inputTelefone;
+    @FXML
+    private PasswordField inputSenha;
+    @FXML
+    private TextField inputEmail;
+    @FXML
+    private Label msgCadastro;
 
     public void setApp(App app) {
         this.app = app;
     }
 
     @FXML
-    private TextField inputNome;
-
-    @FXML
-    private TextField inputSobrenome;
-
-    @FXML
-    private TextField inputIdade;
-
-    @FXML
-    private TextField inputTelefone;
-
-    @FXML
-    private PasswordField inputSenha;
-
-    @FXML
-    private TextField inputEmail;
-
-    @FXML
-    private Label msgCadastro;
-
-    @FXML
     protected void btnCadastrarFuncionario() throws Exception {
         msgCadastro.setText("");
+        PessoaDAO pesDAO;
         PessoaRN RN = new PessoaRN();
-        Pessoa pessoa = new Pessoa();
-        pessoa.setTest();
+
+        String nome = null;
+        String sobrenome = null;
+        String email = null;
+        String senha = null;
+        Integer idade = null;
+        String telefone = null;
 
         try {
 
-            /*pessoa.setNome(inputNome.getText());
-            pessoa.setSobrenome(inputSobrenome.getText());
-            pessoa.setIdade(Integer.parseInt(inputIdade.getText()));
+            if (this.idPessoa != null) {
+                pesDAO = new PessoaDAO();
+                pessoa = pesDAO.find(Integer.parseInt(idPessoa));
+            }
 
-            pessoa.setTel1("981589517");
-                    //inputTelefone.getText());
+            if (!inputNome.getText().equals("") && this.idPessoa != null) {
+                pessoa.setNome(inputNome.getText());
+            } else if (!inputNome.getText().equals("") && this.idPessoa == null) {
+                nome = inputNome.getText();
+            }
 
-            pessoa.setEmail(inputEmail.getText());
-            pessoa.setSenha(inputSenha.getText());*/
+            if (!inputSobrenome.getText().equals("") && this.idPessoa != null) {
+                pessoa.setSobrenome(inputSobrenome.getText());
+            } else if (!inputSobrenome.getText().equals("") && this.idPessoa == null) {
+                sobrenome = inputSobrenome.getText();
+            }
+
+            if (!inputEmail.getText().equals("") && this.idPessoa != null) {
+                pessoa.setEmail(inputEmail.getText());
+            } else if (!inputEmail.getText().equals("") && this.idPessoa == null) {
+                email = inputEmail.getText();
+            }
+
+            if (!inputSenha.getText().equals("") && this.idPessoa != null) {
+                pessoa.setSenha(inputSenha.getText());
+            } else if (!inputSenha.getText().equals("") && this.idPessoa == null) {
+                senha = inputSenha.getText();
+            }
+
+            if (!inputIdade.getText().equals("") && this.idPessoa != null) {
+                pessoa.setIdade(Integer.parseInt(inputIdade.getText()));
+            } else if (!inputIdade.getText().equals("") && this.idPessoa == null) {
+                idade = Integer.parseInt(inputIdade.getText());
+            }
+
+            if (!inputTelefone.getText().equals("") && this.idPessoa != null) {
+                pessoa.setTel1(inputTelefone.getText());
+                pessoa.setTel2(inputTelefone.getText());
+            } else if (!inputTelefone.getText().equals("") && this.idPessoa == null) {
+                telefone = inputTelefone.getText();
+            }
+
+            if (this.idPessoa != null) {
+                RN.validarAlteracao(this.pessoa);
+                Thread.sleep(3000);
+                app.showSceneAdminFuncionarios();
+                return;
+            }
+
+            pessoa = new Pessoa();
+
+            pessoa.setNome(nome);
+            System.out.println("nome: " + nome);
+            pessoa.setSobrenome(sobrenome);
+            pessoa.setEmail(email);
+            pessoa.setSenha(senha);
+            pessoa.setIdade(idade);
+            pessoa.setTel1(telefone);
+            pessoa.setTel2(telefone);
 
             app.showSceneCadEnd(RN.validarCadastro(pessoa));
 
-        }catch (NoResultException nre){
+        } catch (NoResultException nre) {
+            System.out.println("NoResultException: " + nre.getMessage());
+            erroPreenchimento();
+        } catch (NullPointerException npe) {
+            System.out.println("Exception: " + npe.getMessage());
+            erroPreenchimento();
+        } catch (NumberFormatException nfe) {
+            System.out.println("Exception: " + nfe.getMessage());
+            erroPreenchimento();
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
 
-            System.out.println(nre.getMessage());
-
-            Alert a = new Alert(Alert.AlertType.NONE);
-            a.setAlertType(Alert.AlertType.ERROR);
-            a.setContentText("Preencha todos os campos");
-            a.show();
-        }catch(Exception e){
-
-            System.out.println(e.getMessage());
-
-            Alert a = new Alert(Alert.AlertType.NONE);
-            a.setAlertType(Alert.AlertType.ERROR);
-            a.setContentText("Este email ja esta sendo utilizado");
-            a.show();
+            if (e.getMessage().equals("emailExistente"))
+                erroEmail();
+            else
+                erroPreenchimento();
         }
+
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //TODO
+        // TODO
+    }
+
+    @FXML
+    protected void btnHome() throws IOException {
+        app.showSceneLogin();
+    }
+
+    @FXML
+    protected void btnVoltar() throws IOException {
+        app.voltar();
+    }
+
+    public String getIdPessoa() {
+        return idPessoa;
+    }
+
+    public void setIdPessoa(String idPessoa) {
+        this.idPessoa = idPessoa;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 }

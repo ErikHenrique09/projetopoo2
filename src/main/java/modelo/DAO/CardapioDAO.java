@@ -1,8 +1,8 @@
 package modelo.DAO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import modelo.VO.Cardapio;
-
-import jakarta.persistence.*;
 import util.CRUD;
 import util.ConexaoHibernate;
 
@@ -12,7 +12,9 @@ public class CardapioDAO implements CRUD<Cardapio> {
 
     EntityManager entityManager;
 
-    public CardapioDAO() { this.entityManager = ConexaoHibernate.getInstance(); }
+    public CardapioDAO() {
+        this.entityManager = ConexaoHibernate.getInstance();
+    }
 
     @Override
     public void save(Cardapio cardapio) {
@@ -47,7 +49,7 @@ public class CardapioDAO implements CRUD<Cardapio> {
 
     @Override
     public Cardapio find(Integer id) {
-        return this.entityManager.createQuery("SELECT c FROM Cardapio c WHERE c.id ="+id, Cardapio.class).getSingleResult();
+        return this.entityManager.createQuery("SELECT c FROM Cardapio c WHERE c.id =" + id, Cardapio.class).getSingleResult();
     }
 
     @Override

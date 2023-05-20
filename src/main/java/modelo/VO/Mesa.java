@@ -2,19 +2,20 @@ package modelo.VO;
 
 import jakarta.persistence.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Entity
 
 @Table(name = "Mesa")
 public class Mesa {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idMesa;
-
     @OneToMany(mappedBy = "mesa", cascade = CascadeType.ALL, orphanRemoval = false)
     private final List<Pedido> pedidos = new ArrayList<>();
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idMesa;
     private Integer numero;
     private Calendar iniMesa;
     private Calendar fimMesa;
@@ -29,19 +30,20 @@ public class Mesa {
 
     }
 
-    public void iniciarMesa(){
+    public void iniciarMesa() {
 
-        if(this.getIniMesa() != null){
+        if (this.getIniMesa() != null) {
             System.out.println("Mesa ocupada");
-        }else{
+        } else {
             this.iniMesa = Calendar.getInstance();
         }
     }
-    public void encerrarMesa(){
 
-        if(this.getFimMesa() != null){
+    public void encerrarMesa() {
+
+        if (this.getFimMesa() != null) {
             System.out.println("Mesa ja encerrada");
-        }else{
+        } else {
             //encerrar e inserir para dados historicos
             this.fimMesa = Calendar.getInstance();
             System.out.println("Inserir mesa, pedidos, itens do pedido, valor total nos registros historicos");

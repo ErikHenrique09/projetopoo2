@@ -1,8 +1,8 @@
 package modelo.DAO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import modelo.VO.Endereco;
-
-import jakarta.persistence.*;
 import util.CRUD;
 import util.ConexaoHibernate;
 
@@ -48,8 +48,8 @@ public class EnderecoDAO implements CRUD<Endereco> {
     }
 
     @Override
-    public Endereco find(Integer id){
-        return this.entityManager.createQuery("SELECT e FROM Endereco e WHERE e.idEndereco = "+id, Endereco.class).getSingleResult();
+    public Endereco find(Integer id) {
+        return this.entityManager.createQuery("SELECT e FROM Endereco e WHERE e.idEndereco = " + id, Endereco.class).getSingleResult();
     }
 
     @Override

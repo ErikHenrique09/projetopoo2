@@ -49,7 +49,7 @@ public class CozinhaDAO implements CRUD<Cozinha> {
 
     @Override
     public Cozinha find(Integer id) {
-        return this.entityManager.createQuery("SELECT c FROM Cozinha c WHERE c.id ="+id, Cozinha.class).getSingleResult();
+        return this.entityManager.createQuery("SELECT c FROM Cozinha c WHERE c.id =" + id, Cozinha.class).getSingleResult();
     }
 
     @Override

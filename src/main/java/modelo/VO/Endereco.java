@@ -1,11 +1,13 @@
 package modelo.VO;
 
 import jakarta.persistence.*;
+
 @Entity
 
 @Table(name = "Endereco")
 public class Endereco {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEndereco;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -78,7 +80,7 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public void setTest(){
+    public void setTest() {
         this.bairro = "Cohab";
         this.rua = "D";
         this.complemento = "Casa jardim na frente";

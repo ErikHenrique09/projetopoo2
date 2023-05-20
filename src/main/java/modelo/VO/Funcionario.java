@@ -7,7 +7,8 @@ import jakarta.persistence.*;
 @Table(name = "Funcionario")
 public class Funcionario {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFunc;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -18,10 +19,12 @@ public class Funcionario {
     @JoinColumn(name = "idCozinha")
     private Cozinha cozinha;
 
+    @Column(name = "func", nullable = false, columnDefinition = "1")
     private Funcoes func;
 
     public Funcionario() {
     }
+
     public Funcionario(Funcoes func, Pessoa pessoa) {
         this.func = func;
         this.pessoa = pessoa;

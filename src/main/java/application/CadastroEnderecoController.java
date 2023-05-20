@@ -14,11 +14,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static util.errors.erroCancelamentoCadastro;
+
 public class CadastroEnderecoController implements Initializable {
 
     private App app;
 
     private Pessoa pessoa;
+
 
     @FXML
     private TextField inputBairro;
@@ -54,11 +57,35 @@ public class CadastroEnderecoController implements Initializable {
             DAO.save(endereco);
             app.showSceneLogin();
 
-        } catch (NoResultException nre){
+        } catch (NoResultException nre) {
             msgCadastro.setText("Preencha todos os campos");
-        } catch (NumberFormatException nfe){
+        } catch (NumberFormatException nfe) {
             msgCadastro.setText("Preencha todos os campos");
         }
+    }
+
+    @FXML
+    protected void btnHome() throws IOException {
+        PessoaDAO pesDAO = new PessoaDAO();
+
+        pesDAO.deletById(pessoa.getIdPessoa().intValue());
+
+        erroCancelamentoCadastro();
+
+        app.showSceneLogin();
+    }
+
+    @FXML
+    protected void btnVoltar() throws IOException, InterruptedException {
+
+
+        PessoaDAO pesDAO = new PessoaDAO();
+
+        pesDAO.deletById(pessoa.getIdPessoa().intValue());
+
+        erroCancelamentoCadastro();
+
+        app.voltar();
     }
 
     @Override

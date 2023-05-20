@@ -22,10 +22,11 @@ public class Cardapio {
 
     public Cardapio() {
     }
+
     public Cardapio(String titulo, String desc, Float val) {
-        this.titulo  = titulo;
-        this.descricao  = desc;
-        this.val  = val;
+        this.titulo = titulo;
+        this.descricao = desc;
+        this.val = val;
     }
 
     public Long getIdCardapio() {

@@ -10,7 +10,8 @@ import java.util.List;
 @Table(name = "Pessoa")
 public class Pessoa {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPessoa;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -41,7 +42,7 @@ public class Pessoa {
     public Pessoa() {
     }
 
-    public Pessoa(String nome,String sobrenome, Integer idade, String email, String senha, String tel1, String tel2) {
+    public Pessoa(String nome, String sobrenome, Integer idade, String email, String senha, String tel1, String tel2) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.idade = idade;
@@ -123,7 +124,7 @@ public class Pessoa {
         this.tel2 = tel2;
     }
 
-    public void setTest(){
+    public void setTest() {
         this.nome = "Teste";
         this.sobrenome = "Teste";
         this.idade = 18;
