@@ -48,7 +48,7 @@ public class CozinhaController implements Initializable {
             return;
 
         item.close(item.find(json.get("idItenPedido").getAsInt()));
-        setValoresVBox(carregarPedidos());
+        app.showSceneCozinha();
     }
 
     // Definir as informações do GridPane dinamicamente
@@ -62,7 +62,7 @@ public class CozinhaController implements Initializable {
         for (JsonElement js : json.getAsJsonArray()) {
 
             JsonObject dados = js.getAsJsonObject();
-            System.out.println(dados);
+            //System.out.println(dados);
             //System.out.println("{ \"vbox\": \"("+i+","+j+")\", \"idItenPedido\": \""+dados.get("idItenPedido")+"\"}");
 
             VBox vbox = Compose.createVBox("{ \"vbox\": \"(" + i + "," + j + ")\", \"idItenPedido\": \"" + dados.get("idItenPedido") + "\"}", this);
@@ -74,8 +74,22 @@ public class CozinhaController implements Initializable {
             ((Label) gridPane.lookup("#ouputQuantidade")).setText(dados.get("quantidade").getAsString());
             ((Label) gridPane.lookup("#outputMesa")).setText(dados.get("mesa").getAsString());
             vbox.setId("vbox(" + i + "," + j + ")");
-            gridPedidos.add(vbox, i, j);
-            i++;
+
+            if(i%3 == 0 && i != 0) {
+
+                i = 0;
+
+                j++;
+
+                gridPedidos.setPrefHeight(gridPedidos.getPrefHeight()+vbox.getPrefHeight());
+                gridPedidos.setMaxHeight(gridPedidos.getPrefHeight());
+                gridPedidos.addRow(j);
+                gridPedidos.add(vbox, i, j);
+                i++;
+            }else{
+                gridPedidos.add(vbox, i, j);
+                i++;
+            }
         }
     }
 
@@ -100,6 +114,26 @@ public class CozinhaController implements Initializable {
 
     public void setApp(App app) {
         this.app = app;
+    }
+
+    public void goCozinha() throws IOException {
+        app.showSceneCozinha();
+    }
+
+    public void goPedido() throws IOException {
+        app.showScenePedidos();
+    }
+
+    public void goAdmin() throws IOException {
+        app.showSceneAdminFuncionarios();
+        //Tirar dps
+        /*app.setIdUser(0L);
+        PessoaDAO pesDAO = new PessoaDAO();
+        if (pesDAO.validaAdmin(app.getIdUser().toString()))
+            app.showSceneAdminFuncionarios();
+        else
+            erroAdmin();*/
+
     }
 
 }

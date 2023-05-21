@@ -25,4 +25,26 @@ public class errors {
         a.show();
     }
 
+    public static void erroSelecionaMesa(){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("Seleciona uma mesa");
+        a.show();
+    }
+
+    public static void erroFazLogin(){
+
+        /*Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("É necessario estar logado para acessar o sistema!!!");
+        a.show();*/
+    }
+
+    public static void erroAdmin(){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("Permissão Negada !!!");
+        a.show();
+    }
+
 }

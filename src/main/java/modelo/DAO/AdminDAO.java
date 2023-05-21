@@ -28,7 +28,7 @@ public class AdminDAO {
                         "'fimPed', p.fimPedido, " +
                         "'iniMesa', m.iniMesa, " +
                         "'fimMesa', m.fimMesa " +
-                        ") venda " +
+                        ")" +
                         "FROM pedido p " +
                         "INNER JOIN itenpedido i on p.idPedido = i.idPedido " +
                         "INNER JOIN cardapio c on i.idCardapio = c.idCardapio " +

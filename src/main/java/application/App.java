@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import modelo.VO.Pessoa;
+import util.errors;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class App extends Application {
     private List<String> url;
     private Integer width = 810;
     private Integer height = 600;
+    private Long idUser = null;
 
     public static void main(String[] args) {
         launch(args);
@@ -28,8 +30,11 @@ public class App extends Application {
         this.stage = primaryStage;
         this.url = new ArrayList<String>();
 
-        this.url.add("login");
-        showSceneLogin(); // Exibe a tela de login
+        //this.url.add("login");
+        //showSceneLogin(); // Exibe a tela de login
+
+        this.url.add("pedido");
+        showScenePedidos();
 
         //url.add("adminFunc");
         //showSceneAdminFuncionarios();
@@ -66,6 +71,7 @@ public class App extends Application {
     }
 
     public void showSceneCadFunc(String idPessoa) throws IOException {
+
         this.url.add("cadFunc");
         stage.close();
 
@@ -98,6 +104,7 @@ public class App extends Application {
     }
 
     public void showSceneCadEnd(Pessoa pessoa) throws IOException {
+
         this.url.add("cadEnd");
         stage.close();
 
@@ -127,6 +134,10 @@ public class App extends Application {
     }
 
     public void showSceneAdminFuncionarios() throws IOException {
+
+        if(this.getIdUser() == null)
+            errors.erroFazLogin();
+
         this.url.add("adminFunc");
         stage.close();
 
@@ -156,6 +167,10 @@ public class App extends Application {
     }
 
     public void showSceneAdminVendas() throws IOException {
+
+        if(this.getIdUser() == null)
+            errors.erroFazLogin();
+
         this.url.add("adminVendas");
         stage.close();
 
@@ -185,15 +200,17 @@ public class App extends Application {
     }
 
     public void showSceneCozinha() throws IOException {
+
+        if(this.getIdUser() == null)
+            errors.erroFazLogin();
+
         stage.close();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Cozinha.fxml"));
         Parent root = loader.load();
 
         // Obtém o controlador das telas
-        CozinhaController controller = null;
-
-        controller = loader.getController();
+        CozinhaController controller =  loader.getController();
 
         // Define a cena da tela de cadastro no palco
         Scene scene = new Scene(root, width, height);
@@ -204,6 +221,32 @@ public class App extends Application {
         controller.setApp(this);
 
         stage.setTitle("Cozinha");
+        stage.show();
+
+    }
+
+    public  void showScenePedidos() throws IOException {
+
+        if(this.getIdUser() == null)
+            errors.erroFazLogin();
+
+        stage.close();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Pedido.fxml"));
+        Parent root = loader.load();
+
+        // Obtém o controlador das telas
+        PedidoController controller =  loader.getController();
+
+        // Define a cena da tela de cadastro no palco
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        // Passa o objeto 'App' para o controlador da tela cozinha
+        controller.setApp(this);
+
+        stage.setTitle("Pedido");
         stage.show();
 
     }
@@ -271,5 +314,13 @@ public class App extends Application {
 
     public void setUrl(List<String> url) {
         this.url = url;
+    }
+
+    public Long getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 }

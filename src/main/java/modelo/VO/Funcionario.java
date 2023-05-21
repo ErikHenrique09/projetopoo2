@@ -30,8 +30,8 @@ public class Funcionario {
         this.pessoa = pessoa;
     }
 
-    public Long getId() {
-        return idFunc;
+    public Integer getId() {
+        return Math.toIntExact(idFunc);
     }
 
     public void setId(Long id) {

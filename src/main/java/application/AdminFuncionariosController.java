@@ -25,10 +25,7 @@ public class AdminFuncionariosController implements Initializable {
     private final FuncionarioDAO funcDAO = new FuncionarioDAO();
     private App app;
     private JsonObject selectedFuncionario;
-    @FXML
-    private MenuItem menuVendas;
-    @FXML
-    private MenuItem menuFuncionarios;
+
     @FXML
     private TableView<JsonObject> tableViewFuncionarios;
     @FXML
@@ -49,7 +46,6 @@ public class AdminFuncionariosController implements Initializable {
     private Label outputTelefone1;
     @FXML
     private Label outputTelefone2;
-    private ObservableList<JsonObject> observableListFuncionarios;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -70,7 +66,7 @@ public class AdminFuncionariosController implements Initializable {
 
         JsonArray jsonArray = funcDAO.exibir();
 
-        observableListFuncionarios = FXCollections.observableArrayList();
+        ObservableList<JsonObject> observableListFuncionarios = FXCollections.observableArrayList();
 
         for (JsonElement element : jsonArray) {
             if (element.isJsonObject()) {
@@ -143,4 +139,25 @@ public class AdminFuncionariosController implements Initializable {
     public void setApp(App app) {
         this.app = app;
     }
+
+    public void goCozinha() throws IOException {
+        app.showSceneCozinha();
+    }
+
+    public void goPedido() throws IOException {
+        app.showScenePedidos();
+    }
+
+    public void goAdmin() throws IOException {
+        app.showSceneAdminFuncionarios();
+        //Tirar dps
+        /*app.setIdUser(0L);
+        PessoaDAO pesDAO = new PessoaDAO();
+        if (pesDAO.validaAdmin(app.getIdUser().toString()))
+            app.showSceneAdminFuncionarios();
+        else
+            erroAdmin();*/
+
+    }
+
 }

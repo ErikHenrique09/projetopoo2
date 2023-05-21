@@ -87,7 +87,7 @@ public class ItenPedidoDAO implements CRUD<ItenPedido> {
                                 "INNER JOIN Mesa m on p.mesa.idMesa = m.idMesa " +
                                 "INNER JOIN Pessoa p2 on f.pessoa.id = p2.idPessoa " +
                                 "WHERE i.status = "+ status +
-                                "ORDER BY p.iniPedido  ASC").getSingleResult(),
+                                "ORDER BY i.idItenPedido  ASC").getSingleResult(),
                 JsonArray.class);
         return jsonElements;
     }
@@ -95,6 +95,10 @@ public class ItenPedidoDAO implements CRUD<ItenPedido> {
     public void close(ItenPedido item) {
         item.setStatus(0);
         update(item);
+    }
+
+    public List<ItenPedido> findAllByPed(Long idPedido) {
+        return this.entityManager.createQuery("SELECT * FROM ItemPedido i WHERE i.pedido.id = "+idPedido,ItenPedido.class).getResultList();
     }
 
     /*public JsonObject attTime(){

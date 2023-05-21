@@ -1,5 +1,6 @@
 package modelo.DAO;
 
+import com.google.gson.JsonArray;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import modelo.VO.Cardapio;
@@ -56,5 +57,14 @@ public class CardapioDAO implements CRUD<Cardapio> {
     public List<Cardapio> findAll() {
         return this.entityManager.createQuery("SELECT c FROM Cardapio c", Cardapio.class).getResultList();
     }
+
+    public List<JsonArray> getCardapio(){
+       return  this.entityManager.createQuery(
+            "SELECT " +
+                        "json_object('categoria', c.categoria,'produtos', json_arrayagg(JSON_OBJECT('idItenCardapio', c.idCardapio,'titulo', c.titulo))) "+
+                    "FROM Cardapio c "+
+                    "group by c.categoria", JsonArray.class).getResultList();
+    }
+
 }
 

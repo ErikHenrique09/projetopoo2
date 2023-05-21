@@ -37,13 +37,14 @@ public class LoginController implements Initializable {
         String senha = inputSenha.getText();
 
         try {
+
             msglogin.setText("");
 
-            pesDAO.findByEmailSenha(email, senha);
+            app.setIdUser(pesDAO.findByEmailSenha(email, senha).getIdPessoa());
+
             System.out.println(email + " : " + senha);
 
             msglogin.setText("Login Efetuado");
-
 
             app.showSceneAdminFuncionarios();
 

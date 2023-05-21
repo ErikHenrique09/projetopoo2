@@ -106,5 +106,14 @@ public class PessoaDAO implements CRUD<Pessoa> {
 
     }
 
+    public boolean validaAdmin(String id){
+        try{
+            this.entityManager.createQuery("SELECT p FROM Pessoa p INNER JOIN Funcionario f ON f.pessoa.id = p.id WHERE p.id =" + id +" AND f.func = 0", Pessoa.class).getSingleResult();
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
+
 }
 

@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="600.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/19"
-      fx:controller="application.CozinhaController">
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CozinhaController">
     <children>
-        <MenuBar fx:id="Areas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                 nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="810.0">
+        <MenuBar fx:id="Areas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="810.0">
             <menus>
                 <Menu fx:id="menuAreas" mnemonicParsing="false" text="| | |">
                     <items>
-                        <MenuItem fx:id="cozinha" mnemonicParsing="false" text="Cozinha"/>
-                        <MenuItem fx:id="pedido" mnemonicParsing="false" text="Pedido"/>
-                        <MenuItem fx:id="caixa" mnemonicParsing="false" text="Caixa"/>
+                        <MenuItem fx:id="cozinha" mnemonicParsing="false" onAction="#goCozinha" text="Cozinha" />
+                        <MenuItem fx:id="pedido" mnemonicParsing="false" onAction="#goPedido" text="Pedido" />
+                        <MenuItem fx:id="caixa" mnemonicParsing="false" text="Caixa" />
+                  <MenuItem fx:id="administracao" mnemonicParsing="false" text="Administração" />
                     </items>
                 </Menu>
             </menus>
@@ -24,459 +31,50 @@
             <children>
                 <GridPane prefHeight="69.0" prefWidth="810.0">
                     <columnConstraints>
-                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Label fx:id="labelSelectedItenPedido" alignment="CENTER" contentDisplay="CENTER"
-                               layoutX="280.0" layoutY="20.0" prefHeight="21.0" prefWidth="184.0"
-                               text="Pedido Selecionado: ">
+                        <Label fx:id="labelSelectedItenPedido" alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="20.0" prefHeight="21.0" prefWidth="184.0" text="Pedido Selecionado: ">
                             <font>
-                                <Font size="15.0"/>
+                                <Font size="15.0" />
                             </font>
                             <GridPane.margin>
-                                <Insets/>
+                                <Insets />
                             </GridPane.margin>
                         </Label>
-                        <Label fx:id="p" alignment="CENTER" contentDisplay="CENTER" text="Pedidos"
-                               GridPane.columnIndex="1">
+                        <Label fx:id="p" alignment="CENTER" contentDisplay="CENTER" text="Pedidos" GridPane.columnIndex="1">
                             <font>
-                                <Font size="28.0"/>
+                                <Font size="28.0" />
                             </font>
                         </Label>
-                        <Button fx:id="pedidoPronto" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false"
-                                onAction="#pedidoPronto" prefHeight="30.0" prefWidth="79.0"
-                                style="-fx-background-color: #6b2020;" text="Pronto" textAlignment="CENTER"
-                                textFill="WHITE" GridPane.columnIndex="2">
+                        <Button fx:id="pedidoPronto" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pedidoPronto" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: #6b2020;" text="Pronto" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
                             <GridPane.margin>
-                                <Insets right="20.0"/>
+                                <Insets right="20.0" />
                             </GridPane.margin>
                             <font>
-                                <Font name="System Bold" size="14.0"/>
+                                <Font name="System Bold" size="14.0" />
                             </font>
                         </Button>
                     </children>
                 </GridPane>
             </children>
         </VBox>
-        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity"
-                    minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="810.0"
-                    style="-fx-background-insets: 0; -fx-background-color: transparent; -fx-border-color: transparent;">
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="810.0" style="-fx-background-insets: 0; -fx-background-color: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
             <content>
-                <GridPane fx:id="gridPedidos" alignment="CENTER" maxHeight="516.0" maxWidth="810.0" minHeight="10.0"
-                          minWidth="10.0" prefHeight="480.0" prefWidth="810.0">
+                <GridPane fx:id="gridPedidos" alignment="CENTER" maxHeight="1073.0" maxWidth="810.0" minHeight="10.0" minWidth="10.0" prefHeight="165.0" prefWidth="810.0">
                     <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0"
-                                           percentWidth="0.0" prefWidth="260.0"/>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0"
-                                           percentWidth="0.0" prefWidth="260.0"/>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0"
-                                           percentWidth="0.0" prefWidth="260.0"/>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0" percentWidth="0.0" prefWidth="260.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0" percentWidth="0.0" prefWidth="260.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0" percentWidth="0.0" prefWidth="260.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
-                    <children>
-                        <VBox alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity"
-                              minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="66.0" prefHeight="45.0" prefWidth="125.0"
-                                               text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="31.0" prefHeight="43.0" prefWidth="89.0"
-                                               text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera" alignment="CENTER" contentDisplay="CENTER"
-                                               maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                               minWidth="-Infinity" prefHeight="35.0" prefWidth="95.0"
-                                               text="Guarana Antartica" GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="95.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="95.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="95.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                            <GridPane.margin>
-                                <Insets/>
-                            </GridPane.margin>
-                        </VBox>
-                        <VBox alignment="CENTER" disable="true" maxHeight="-Infinity" maxWidth="-Infinity"
-                              minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false" GridPane.rowIndex="1">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="66.0" prefHeight="45.0" prefWidth="125.0"
-                                               text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido111" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="31.0" prefHeight="43.0" prefWidth="89.0"
-                                               text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera111" alignment="CENTER" contentDisplay="CENTER"
-                                               maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                               minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" text="Label"
-                                               GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" disable="true" layoutX="30.0" layoutY="186.0" maxHeight="-Infinity"
-                              maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
-                              prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera1111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="66.0" prefHeight="45.0" prefWidth="125.0"
-                                               text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido1111" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade1111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="31.0" prefHeight="43.0" prefWidth="89.0"
-                                               text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa1111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera1111" alignment="CENTER" contentDisplay="CENTER"
-                                               maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                               minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" text="Label"
-                                               GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido1111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade1111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa1111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" disable="true" layoutX="290.0" layoutY="186.0" maxHeight="-Infinity"
-                              maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
-                              prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera11111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="66.0" prefHeight="45.0" prefWidth="125.0"
-                                               text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido11111" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade11111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="31.0" prefHeight="43.0" prefWidth="89.0"
-                                               text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa11111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera11111" alignment="CENTER" contentDisplay="CENTER"
-                                               maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                               minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" text="Label"
-                                               GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido11111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade11111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa11111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" disable="true" layoutX="550.0" layoutY="186.0" maxHeight="-Infinity"
-                              maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
-                              prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false" GridPane.rowIndex="2">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="66.0" prefHeight="45.0" prefWidth="125.0"
-                                               text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido111111" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="31.0" prefHeight="43.0" prefWidth="89.0"
-                                               text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera111111" alignment="CENTER"
-                                               contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" disable="true" layoutX="30.0" layoutY="352.0" maxHeight="-Infinity"
-                              maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
-                              prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera1111111" alignment="CENTER"
-                                               contentDisplay="CENTER" layoutX="10.0" layoutY="66.0" prefHeight="45.0"
-                                               prefWidth="125.0" text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido1111111" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade1111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="31.0" prefHeight="43.0" prefWidth="89.0"
-                                               text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa1111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera1111111" alignment="CENTER"
-                                               contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido1111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade1111111" alignment="CENTER"
-                                               contentDisplay="CENTER" layoutX="149.0" layoutY="60.0"
-                                               maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                               minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" text="Label"
-                                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa1111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                        <VBox alignment="CENTER" disable="true" layoutX="290.0" layoutY="352.0" maxHeight="-Infinity"
-                              maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0"
-                              prefWidth="250.0"
-                              style="-fx-border-color: gray; -fx-border-width: 2px; -fx-border-radius: 15;"
-                              visible="false" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                            <children>
-                                <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                          minWidth="-Infinity" prefHeight="154.0" prefWidth="220.0"
-                                          styleClass="bordered-element">
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0"
-                                                           prefWidth="156.0"/>
-                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="133.0" minWidth="10.0"
-                                                           prefWidth="122.0"/>
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                                    </rowConstraints>
-                                    <children>
-                                        <Label fx:id="labelTempoEspera11111111" alignment="CENTER"
-                                               contentDisplay="CENTER" layoutX="10.0" layoutY="66.0" prefHeight="45.0"
-                                               prefWidth="125.0" text="Tempo em espera"/>
-                                        <Label fx:id="labelPedido11111111" alignment="CENTER" contentDisplay="CENTER"
-                                               prefHeight="45.0" prefWidth="66.0" text="Pedido" GridPane.rowIndex="1"/>
-                                        <Label fx:id="labelQuantidade11111111" alignment="CENTER"
-                                               contentDisplay="CENTER" layoutX="10.0" layoutY="31.0" prefHeight="43.0"
-                                               prefWidth="89.0" text="Quantidade" GridPane.rowIndex="2"/>
-                                        <Label fx:id="labelMesa11111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="10.0" layoutY="88.0" prefHeight="45.0" prefWidth="57.0"
-                                               text="Mesa" GridPane.rowIndex="3"/>
-                                        <Label fx:id="outputTempoEspera11111111" alignment="CENTER"
-                                               contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"/>
-                                        <Label fx:id="outputPedido11111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="1"/>
-                                        <Label fx:id="outputQuantidade11111111" alignment="CENTER"
-                                               contentDisplay="CENTER" layoutX="149.0" layoutY="60.0"
-                                               maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                                               minWidth="-Infinity" prefHeight="35.0" prefWidth="120.0" text="Label"
-                                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                                        <Label fx:id="outputMesa11111111" alignment="CENTER" contentDisplay="CENTER"
-                                               layoutX="149.0" layoutY="99.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                                               minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0"
-                                               prefWidth="120.0" text="Label" GridPane.columnIndex="1"
-                                               GridPane.rowIndex="3"/>
-                                    </children>
-                                </GridPane>
-                            </children>
-                        </VBox>
-                    </children>
                 </GridPane>
             </content>
         </ScrollPane>

@@ -1,14 +1,16 @@
 package util;
 
 import application.CozinhaController;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import javafx.animation.ScaleTransition;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 public class Compose {
@@ -101,6 +103,121 @@ public class Compose {
         return gridPane;
     }
 
+    public static VBox createInputVBox(JsonObject json) {
+        VBox vbox = new VBox();
+        vbox.setId(json.get("categoria").getAsString());
+        vbox.setPrefHeight(200);
+        vbox.setPrefWidth(100);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setPrefHeight(160);
+        gridPane.setPrefWidth(760);
+
+        ColumnConstraints col1 = createInputCols(400.0,10.0,372.0);
+        ColumnConstraints col2 = createInputCols(115.0,10.0,259.0);
+        ColumnConstraints col3 = createInputCols(115.0,10.0,67.0);
+
+        RowConstraints rowTitle = createRow();
+        gridPane.getColumnConstraints().addAll(col1, col2, col3);
+        gridPane.getRowConstraints().addAll(rowTitle);
+
+        System.out.println(json.get("categoria"));
+
+        Label labelTitulo = createTitulo(json.get("categoria").getAsString());
+        GridPane.setHalignment(labelTitulo, HPos.LEFT);
+        GridPane.setValignment(labelTitulo, VPos.CENTER);
+       // GridPane.setMargin(labelTitulo, new Insets(20, 0, 0, 20));
+        gridPane.getChildren().addAll(labelTitulo);
+
+        Integer j = 1;
+
+        for(JsonElement produtos: json.get("produtos").getAsJsonArray()) {
+
+            JsonObject js = produtos.getAsJsonObject();
+
+            Label labelProduto = new Label(js.get("titulo").getAsString());
+            labelProduto.setPadding(new Insets(10,10,10,10));
+            labelProduto.setFont(new Font(15));
+            GridPane.setRowIndex(labelProduto, j);
+            GridPane.setMargin(labelProduto, new Insets(0, 0, 0, 100));
+
+            CheckBox checkBox = createCheckBox(js.get("idItenCardapio").getAsString());
+            GridPane.setHgrow(checkBox, Priority.SOMETIMES);
+            GridPane.setColumnIndex(checkBox, 2);
+            GridPane.setRowIndex(checkBox, j);
+
+            TextField fieldQtd = createTextField();
+            fieldQtd.setId("qtd");
+            GridPane.setColumnIndex(fieldQtd, 1);
+            GridPane.setRowIndex(fieldQtd, j);
+            GridPane.setHgrow(fieldQtd, Priority.ALWAYS);
+
+            vbox.setPrefHeight(vbox.getPrefHeight() + fieldQtd.getPrefHeight());
+
+            gridPane.addRow(j,labelProduto, fieldQtd, checkBox);
+
+            j++;
+        }
+
+
+        //vbox.setPrefHeight(vbox.getPrefHeight() + 43.0*(j+1));
+        vbox.getChildren().add(gridPane);
+
+        return vbox;
+    }
+
+    private static CheckBox createCheckBox(String id){
+        CheckBox check = new CheckBox();
+        check.setId(id);
+        check.setPadding(new Insets(0,0,0,10));
+        check.setAlignment(Pos.CENTER);
+        check.setContentDisplay(ContentDisplay.RIGHT);
+
+        return check;
+    }
+
+    private static TextField createTextField(){
+        TextField textField = new TextField();
+        textField.setAlignment(Pos.CENTER);
+        textField.setMaxWidth(Double.MAX_VALUE);
+        textField.setPrefHeight(40.0);
+
+        return textField;
+
+    }
+
+    private static Label createTitulo(String txt){
+        Label labelTitulo = new Label(txt);
+        labelTitulo.setFont(Font.font("System Bold", 20));
+        labelTitulo.setStyle("-fx-border-insets: 0,90,0,0;");
+        labelTitulo.setMaxWidth(Double.MAX_VALUE);
+        labelTitulo.setPrefHeight(54);
+        labelTitulo.setPrefWidth(440);
+
+        return labelTitulo;
+    }
+
+    public static ColumnConstraints createInputCols(Double maxWidth, Double minWidth, Double prefWidth){
+        ColumnConstraints col = new ColumnConstraints();
+        col.setHalignment(HPos.LEFT);
+        col.setHgrow(Priority.SOMETIMES);
+        col.setMaxWidth(maxWidth);
+        col.setMinWidth(minWidth);
+        col.setPrefWidth(prefWidth);
+
+        return col;
+    }
+
+    private static RowConstraints createInputRows(){
+        RowConstraints row = new RowConstraints();
+        row.setMinHeight(10);
+        row.setPrefHeight(30);
+        row.setVgrow(Priority.SOMETIMES);
+
+        return row;
+    }
+
     private static ColumnConstraints createCol() {
         ColumnConstraints col = new ColumnConstraints();
         col.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
@@ -139,7 +256,7 @@ public class Compose {
         label.setMinHeight(Double.NEGATIVE_INFINITY);
         label.setMinWidth(Double.NEGATIVE_INFINITY);
         label.setPrefHeight(35);
-        label.setPrefWidth(95);
+        label.setPrefWidth(100);
         GridPane.setColumnIndex(label, columnIndex);
         GridPane.setRowIndex(label, rowIndex);
         return label;

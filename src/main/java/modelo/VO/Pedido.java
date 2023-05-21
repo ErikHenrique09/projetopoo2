@@ -1,6 +1,7 @@
 package modelo.VO;
 
 import jakarta.persistence.*;
+import modelo.DAO.ItenPedidoDAO;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,11 +75,8 @@ public class Pedido {
     }
 
     public List<ItenPedido> getItensPedido() {
-        return itensPedido;
-    }
-
-    public void setItensPedido(List<ItenPedido> itensPedido) {
-        this.itensPedido = itensPedido;
+        ItenPedidoDAO item = new ItenPedidoDAO();
+        return item.findAllByPed(this.idPedido);
     }
 
     public Calendar getIniPedido() {

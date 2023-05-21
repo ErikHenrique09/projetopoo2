@@ -18,13 +18,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static java.lang.System.exit;
-
 public class AdminVendasController implements Initializable {
 
     private final ItenPedidoDAO itenDAO = new ItenPedidoDAO();
     private App app;
     private JsonObject selectedVenda;
+
     @FXML
     private TableView<JsonObject> tableViewVendas;
     @FXML
@@ -51,7 +50,6 @@ public class AdminVendasController implements Initializable {
     private Label outputDataPed;
     @FXML
     private Label outputStatus;
-    private ObservableList<JsonObject> observableListVendas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -73,9 +71,9 @@ public class AdminVendasController implements Initializable {
         valorFinal.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().get("valFinal").getAsInt()).asObject());
 
         JsonArray jsonArray = itenDAO.exibir(0);
-        System.out.println(jsonArray);
+        //System.out.println(jsonArray);
         //exit(130);
-        observableListVendas = FXCollections.observableArrayList();
+        ObservableList<JsonObject> observableListVendas = FXCollections.observableArrayList();
 
         for (JsonElement element : jsonArray) {
             if (element.isJsonObject()) {
@@ -161,4 +159,25 @@ public class AdminVendasController implements Initializable {
     public void setApp(App app) {
         this.app = app;
     }
+
+    public void goCozinha() throws IOException {
+        app.showSceneCozinha();
+    }
+
+    public void goPedido() throws IOException {
+        app.showScenePedidos();
+    }
+
+    public void goAdmin() throws IOException {
+        app.showSceneAdminFuncionarios();
+        //Tirar dps
+        /*app.setIdUser(0L);
+        PessoaDAO pesDAO = new PessoaDAO();
+        if (pesDAO.validaAdmin(app.getIdUser().toString()))
+            app.showSceneAdminFuncionarios();
+        else
+            erroAdmin();*/
+
+    }
+
 }

@@ -22,7 +22,7 @@ public class ItenPedido {
     @Column(name = "qtd", nullable = false)
     private Integer qtd;
 
-    @Column(name = "status", columnDefinition = "1")
+    @Column(name = "status", columnDefinition = "1", nullable = false)
     private Integer status;
 
     public ItenPedido() {

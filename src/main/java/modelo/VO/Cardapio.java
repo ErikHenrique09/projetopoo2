@@ -20,6 +20,9 @@ public class Cardapio {
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
+    @Column(name= "categoria", nullable = false)
+    private String categoria;
+
     public Cardapio() {
     }
 
@@ -59,5 +62,21 @@ public class Cardapio {
 
     public void setDesc(String desc) {
         this.descricao = desc;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 }
