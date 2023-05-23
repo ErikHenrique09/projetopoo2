@@ -21,8 +21,8 @@
                     <items>
                         <MenuItem fx:id="cozinha" mnemonicParsing="false" onAction="#goCozinha" text="Cozinha" />
                         <MenuItem fx:id="pedido" mnemonicParsing="false" onAction="#goPedido" text="Pedido" />
-                        <MenuItem fx:id="caixa" mnemonicParsing="false" text="Caixa" />
-                  <MenuItem fx:id="administracao" mnemonicParsing="false" text="Administração" />
+                        <MenuItem fx:id="caixa" mnemonicParsing="false" onAction="#goCaixa" text="Caixa" />
+                  <MenuItem fx:id="administracao" mnemonicParsing="false" onAction="#goAdmin" text="Administração" />
                     </items>
                 </Menu>
             </menus>
@@ -64,7 +64,7 @@
                 </GridPane>
             </children>
         </VBox>
-        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="810.0" style="-fx-background-insets: 0; -fx-background-color: transparent; -fx-border-color: transparent;" vbarPolicy="ALWAYS">
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="810.0" style="-fx-background-insets: 0; -fx-background-color: transparent; -fx-border-color: transparent;">
             <content>
                 <GridPane fx:id="gridPedidos" alignment="CENTER" maxHeight="1073.0" maxWidth="810.0" minHeight="10.0" minWidth="10.0" prefHeight="165.0" prefWidth="810.0">
                     <columnConstraints>

@@ -147,6 +147,10 @@ public class PedidoController implements Initializable {
 
     }
 
+    public void goCaixa() throws IOException {
+        app.showSceneCaixa();
+    }
+
     public void setApp(App app) {
         this.app = app;
     }

@@ -32,33 +32,52 @@ public class CaixaDAO implements CRUD<Caixa> {
 
     }
 
-    public void exibirDetalhes(Integer idMesa) {
-
-        JsonArray detalhes = new Gson().fromJson(
-                this.entityManager.createQuery(
-                        "SELECT " +
-                                "JSON_ARRAYAGG( " +
-                                "JSON_OBJECT( " +
-                                "'pedido', c.titulo, " +
-                                "'valunit', round(c.val,2), " +
-                                "'qtd', ip.qtd, " +
-                                "'ValorFinal', round((c.val*ip.qtd),2) " +
-                                ")" +
-                                ")" +
-                                "FROM Pedido p " +
-                                "INNER JOIN ItenPedido ip on ip.pedido.id = p.idPedido " +
-                                "INNER JOIN Cardapio c on c.idCardapio = ip.cardapio.id " +
-                                "WHERE p.mesa.id = " + idMesa, String.class).getSingleResult(),
-                JsonArray.class);
-
-        System.out.println("-=--=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=--=-=-=-=-=-=-=-=--=-=-=-=-=-=-=");
-
-        for (JsonElement pedido : detalhes.getAsJsonArray()) {
-            System.out.println(pedido);
-        }
-
-        System.out.println("Valor Total: " + calcularTodos(idMesa));
-
+    public JsonArray exibirDetalhes(String id) {
+        if (id == null) {
+            return new Gson().fromJson(
+                    this.entityManager.createQuery(
+                            "SELECT JSON_OBJECT(" +
+                                    "'idMesa', m.idMesa, " +
+                                    "'numMesa', m.numero, " +
+                                    "'hrChegada', concat(hour(m.iniMesa), ':', minute(m.iniMesa), ':', second(m.iniMesa)), " +
+                                    "'pedidos', json_arrayagg(" +
+                                    "json_object(" +
+                                    "'idItenPedido', i.idItenPedido, " +
+                                    "'produto', c.titulo, " +
+                                    "'quantidade', i.qtd, " +
+                                    "'valor', c.val " +
+                                    ")" +
+                                    ")" +
+                                    ")" +
+                                    "FROM Mesa m " +
+                                    "INNER JOIN Pedido p on m.idMesa = p.mesa.id " +
+                                    "INNER JOIN ItenPedido i on p.idPedido = i.pedido.id " +
+                                    "INNER JOIN Cardapio c on i.cardapio.id = c.idCardapio " +
+                                    "WHERE m.fimMesa IS NOT NULL GROUP BY m.idMesa", JsonArray.class).getResultList().toString(),
+                    JsonArray.class);
+        }else{
+            return new Gson().fromJson(
+                    this.entityManager.createQuery(
+                            "SELECT JSON_OBJECT(" +
+                                    "'idMesa', m.idMesa, " +
+                                    "'numMesa', m.numero, " +
+                                    "'hrChegada', concat(hour(m.iniMesa), ':', minute(m.iniMesa), ':', second(m.iniMesa)), " +
+                                    "'pedidos', json_arrayagg(" +
+                                    "json_object(" +
+                                    "'idItenPedido', i.idItenPedido, " +
+                                    "'produto', c.titulo, " +
+                                    "'quantidade', i.qtd, " +
+                                    "'valor', c.val " +
+                                    ")" +
+                                    ")" +
+                                    ")" +
+                                    "FROM Mesa m " +
+                                    "INNER JOIN Pedido p on m.idMesa = p.mesa.id " +
+                                    "INNER JOIN ItenPedido i on p.idPedido = i.pedido.id " +
+                                    "INNER JOIN Cardapio c on i.cardapio.id = c.idCardapio " +
+                                    "WHERE m.fimMesa IS NOT NULL AND m.numero = "+id+" GROUP BY m.idMesa", JsonArray.class).getResultList().toString(),
+                    JsonArray.class);
+            }
     }
 
     public double calcularTodos(Integer idMesa) {

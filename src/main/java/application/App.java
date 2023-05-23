@@ -30,11 +30,11 @@ public class App extends Application {
         this.stage = primaryStage;
         this.url = new ArrayList<String>();
 
-        //this.url.add("login");
-        //showSceneLogin(); // Exibe a tela de login
+        this.url.add("login");
+        showSceneLogin(); // Exibe a tela de login
 
-        this.url.add("pedido");
-        showScenePedidos();
+        //this.url.add("pedido");
+        //showScenePedidos();
 
         //url.add("adminFunc");
         //showSceneAdminFuncionarios();
@@ -44,6 +44,13 @@ public class App extends Application {
 
         //this.url.add("cozinha");
         //showSceneCozinha();
+
+        //this.url.add("caixa");
+        //showSceneCaixa();
+
+        //this.url.add("pagamento");
+        //showScenePagamento();
+
     }
 
     public void showSceneLogin() throws IOException {
@@ -204,6 +211,9 @@ public class App extends Application {
         if(this.getIdUser() == null)
             errors.erroFazLogin();
 
+        this.url.add("adminVendas");
+        stage.close();
+
         stage.close();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Cozinha.fxml"));
@@ -225,10 +235,13 @@ public class App extends Application {
 
     }
 
-    public  void showScenePedidos() throws IOException {
+    public void showScenePedidos() throws IOException {
 
         if(this.getIdUser() == null)
             errors.erroFazLogin();
+
+        this.url.add("adminVendas");
+        stage.close();
 
         stage.close();
 
@@ -249,6 +262,67 @@ public class App extends Application {
         stage.setTitle("Pedido");
         stage.show();
 
+    }
+
+    public void showSceneCaixa() throws IOException {
+
+        if(this.getIdUser() == null)
+            errors.erroFazLogin();
+
+        this.url.add("adminVendas");
+        stage.close();
+
+        stage.close();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Caixa.fxml"));
+        Parent root = loader.load();
+
+        // Obtém o controlador das telas
+        CaixaController controller =  loader.getController();
+
+        // Define a cena da tela de cadastro no palco
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        // Passa o objeto 'App' para o controlador da tela cozinha
+        controller.setApp(this);
+
+        stage.setTitle("Caixa");
+        stage.show();
+
+    }
+
+    public void showScenePagamento() throws IOException {
+
+        if(this.getIdUser() == null)
+            errors.erroFazLogin();
+
+        this.url.add("pagamento");
+
+        stage.close();
+
+        this.width = 510;
+        this.height = 430;
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Pagamento.fxml"));
+        Parent root = loader.load();
+
+        // Obtém o controlador das telas
+        PagamentoController controller =  loader.getController();
+
+        // Define a cena da tela de cadastro no palco
+        Scene scene = new Scene(root, width, height);
+        stage.setScene(scene);
+        stage.setResizable(false);
+
+        // Passa o objeto 'App' para o controlador da tela cozinha
+        controller.setApp(this);
+
+        stage.setTitle("Pagamento");
+        stage.show();
+        this.width = 810;
+        this.height = 600;
     }
 
     public void voltar() throws IOException {
@@ -282,30 +356,6 @@ public class App extends Application {
             default:
                 this.showSceneLogin();
         }
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public Integer getWidth() {
-        return width;
-    }
-
-    public void setWidth(Integer width) {
-        this.width = width;
-    }
-
-    public Integer getHeight() {
-        return height;
-    }
-
-    public void setHeight(Integer height) {
-        this.height = height;
     }
 
     public List<String> getUrl() {

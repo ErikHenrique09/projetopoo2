@@ -5,18 +5,20 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.*;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+
+import java.io.IOException;
+
+import static application.CaixaController.app;
 
 public class Compose {
 
     private static boolean isSelected = false;
     private static String idVbox = null;
+    private static String selectedMesaId = null;
 
     public static VBox createVBox(String idVbox, CozinhaController cozinhaController) {
         VBox vBox = new VBox();
@@ -26,7 +28,7 @@ public class Compose {
         vBox.setMinHeight(Double.NEGATIVE_INFINITY);
         vBox.setMinWidth(Double.NEGATIVE_INFINITY);
         vBox.setAlignment(Pos.CENTER);
-
+        vBox.setPadding(new Insets(5,5,5,5));
         vBox.setOnMouseClicked(event -> {
             vBox.setStyle("-fx-border-color: #989898; -fx-border-width: 2px; -fx-border-radius: 15;");
             if (isSelected) {
@@ -103,12 +105,130 @@ public class Compose {
         return gridPane;
     }
 
+    public static VBox createVBoxMesa(JsonObject json) {
+        VBox vbox = new VBox();
+        vbox.setMinWidth(250);
+        vbox.setMinHeight(350);
+        vbox.setStyle("-fx-border-color: #949494; -fx-border-width: 3; -fx-border-radius: 10;");
+
+        vbox.setOnMouseClicked(event -> {
+            if (isSelected) {
+
+                ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(200), vbox);
+                scaleTransition.setFromX(1.0);
+                scaleTransition.setFromY(1.0);
+                scaleTransition.setToX(1.1);
+                scaleTransition.setToY(1.1);
+                scaleTransition.setCycleCount(2);
+                scaleTransition.setAutoReverse(true);
+                scaleTransition.play();
+                Duration.millis(1000);
+
+                try {
+                    System.out.println(json.get("idMesa").getAsString());
+                    setSelectedMesaId(json.get("idMesa").getAsString());
+                    app.showScenePagamento();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                isSelected = false;
+            } else {
+                isSelected = true;
+                vbox.setStyle("-fx-border-color: #989898; -fx-border-width: 2px; -fx-border-radius: 15;");
+            }
+        });
+
+        vbox.getChildren().add(createGridPaneMesa(json));
+        return vbox;
+    }
+
+    public static GridPane createGridPaneMesa(JsonObject json){
+        // Criando gridpane
+        GridPane gridPane = new GridPane();
+        gridPane.setPrefHeight(441);
+        gridPane.setPrefWidth(244);
+
+        ColumnConstraints column1 = createCol();
+        ColumnConstraints column2 = createCol();
+
+        RowConstraints row1 = createRowMesa(73.0, 10.0, 73.0);
+        RowConstraints row2 = createRowMesa(78.0, 0.0, 39.0);
+        RowConstraints row3 = createRowMesa(121.0, 0.0, 39.0);
+        RowConstraints row4 = createRowMesa(325.0, 10.0, 284.0);
+
+        gridPane.getColumnConstraints().addAll(column1, column2);
+        gridPane.getRowConstraints().addAll(row1, row2, row3, row4);
+
+        Label numMesa = createLabelMesa(json.get("idMesa").getAsString(), 54, 247, 20, "System Bold");
+        GridPane.setColumnIndex(numMesa, 0);
+        GridPane.setRowIndex(numMesa, 0);
+
+        Label labelHrChegada = createLabelMesa("Hora Chegada", 55, 123, 15, "Regular");
+        GridPane.setColumnIndex(labelHrChegada, 0);
+        GridPane.setRowIndex(labelHrChegada, 1);
+
+        Label outPutHrChegada = createLabelMesa(json.get("hrChegada").getAsString(), 55, 123, 15, "Regular");
+        GridPane.setColumnIndex(outPutHrChegada, 1);
+        GridPane.setRowIndex(outPutHrChegada, 1);
+
+        Label labelPedidos = createLabelMesa("Pedidos", 39, 245, 15, "Regular");
+        GridPane.setColumnIndex(labelPedidos, 0);
+        GridPane.setRowIndex(labelPedidos, 2);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setMinWidth(245);
+        scrollPane.setPrefWidth(245);
+        scrollPane.setMaxWidth(245);
+
+        scrollPane.setStyle("-fx-background-insets: 0; -fx-background-color: transparent; -fx-border-color: transparent; -fx-border-radius: 10;");
+        GridPane.setRowIndex(scrollPane, 3);
+
+        GridPane innerGridPane = new GridPane();
+        innerGridPane.setAlignment(Pos.CENTER_LEFT);
+
+        Integer rowCount = json.get("pedidos").getAsJsonArray().size();
+        double rowHeight = 20; // Altura das linhas do innerGridPane
+        double innerGridPaneHeight = rowCount * rowHeight;
+
+        innerGridPane.setPrefHeight(innerGridPaneHeight);
+        ColumnConstraints innerColumn1 = createCol();
+        ColumnConstraints innerColumn2 = createCol();
+
+        innerGridPane.getColumnConstraints().addAll(innerColumn1, innerColumn2);
+        //innerGridPane.getRowConstraints().add(innerRow);
+
+        Integer row = 0;
+        for (JsonElement jsonitens : json.get("pedidos").getAsJsonArray()) {
+            JsonObject js = jsonitens.getAsJsonObject();
+
+            Label produto = createLabelMesa(js.get("produto").getAsString(), 50, 131, 12, "Regular");
+            GridPane.setColumnIndex(produto, 0);
+            GridPane.setRowIndex(produto, row);
+
+            Label quantidade = createLabelMesa(js.get("quantidade").getAsString(), 50, 131, 12, "Regular");
+            quantidade.setId(js.get("idItenPedido").getAsString());
+            GridPane.setColumnIndex(quantidade, 1);
+            GridPane.setRowIndex(quantidade, row);
+
+            innerGridPane.addRow(row, produto, quantidade);
+            row++;
+        }
+
+        scrollPane.setContent(innerGridPane); // Define o conteúdo do ScrollPane como o GridPane interno
+
+        gridPane.getChildren().addAll(numMesa, labelHrChegada, outPutHrChegada, labelPedidos, scrollPane);
+        return gridPane;
+    }
+
     public static VBox createInputVBox(JsonObject json) {
         VBox vbox = new VBox();
         vbox.setId(json.get("categoria").getAsString());
         vbox.setPrefHeight(200);
         vbox.setPrefWidth(100);
-
+        vbox.setPadding(new Insets(5,5,5,5));
         GridPane gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setPrefHeight(160);
@@ -127,7 +247,6 @@ public class Compose {
         Label labelTitulo = createTitulo(json.get("categoria").getAsString());
         GridPane.setHalignment(labelTitulo, HPos.LEFT);
         GridPane.setValignment(labelTitulo, VPos.CENTER);
-       // GridPane.setMargin(labelTitulo, new Insets(20, 0, 0, 20));
         gridPane.getChildren().addAll(labelTitulo);
 
         Integer j = 1;
@@ -159,7 +278,6 @@ public class Compose {
 
             j++;
         }
-
 
         //vbox.setPrefHeight(vbox.getPrefHeight() + 43.0*(j+1));
         vbox.getChildren().add(gridPane);
@@ -209,11 +327,24 @@ public class Compose {
         return col;
     }
 
-    private static RowConstraints createInputRows(){
+    private static Label createLabelMesa(String txt, Integer prefHeight, Integer minWidth, Integer font, String style){
+        Label label = new Label(txt);
+        label.setAlignment(javafx.geometry.Pos.CENTER);
+        label.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
+        label.setPrefHeight(prefHeight);
+        label.setMinWidth(minWidth);
+        label.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        label.setFont(new Font(style, font));
+
+        return label;
+    }
+
+    private static RowConstraints createRowMesa(Double maxHeight, Double minHeight, Double prefHeight){
         RowConstraints row = new RowConstraints();
-        row.setMinHeight(10);
-        row.setPrefHeight(30);
-        row.setVgrow(Priority.SOMETIMES);
+        row.setMaxHeight(maxHeight);
+        row.setMinHeight(minHeight);
+        row.setPrefHeight(prefHeight);
+        row.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
 
         return row;
     }
@@ -269,4 +400,13 @@ public class Compose {
     public static void setIdVbox(String idVbox) {
         Compose.idVbox = idVbox;
     }
+
+    public static void setSelectedMesaId(String idMesa) {
+        selectedMesaId = idMesa;
+    }
+
+    public static String getSelectedMesaId() {
+        return selectedMesaId;
+    }
+
 }

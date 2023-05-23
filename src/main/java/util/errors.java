@@ -47,4 +47,11 @@ public class errors {
         a.show();
     }
 
+    public static void mesaNEncontrada(){
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.WARNING);
+        a.setContentText("Mesa não encontrada!");
+        a.show();
+    }
+
 }

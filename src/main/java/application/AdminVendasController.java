@@ -94,14 +94,15 @@ public class AdminVendasController implements Initializable {
             outputQtd.setText(String.valueOf(obj.get("quantidade").getAsString()));
             outputValFim.setText(String.valueOf(obj.get("valFinal").getAsString()));
             outputIniPed.setText(String.valueOf(obj.get("iniPed").getAsString()));
-            outputFimPed.setText(String.valueOf(obj.get("fimPed").getAsString()));
             outputDataPed.setText(String.valueOf(obj.get("dataPed").getAsString()));
             outputStatus.setText(String.valueOf(obj.get("status").getAsString()));
+
             try {
                 outputFimPed.setText(String.valueOf(obj.get("fimPed").getAsString()));
             } catch (UnsupportedOperationException nulo) {
                 outputFimPed.setText("");
             }
+
         } else {
             outputFunc.setText("");
             outputProd.setText("");
@@ -179,5 +180,10 @@ public class AdminVendasController implements Initializable {
             erroAdmin();*/
 
     }
+
+    public void goCaixa() throws IOException {
+        app.showSceneCaixa();
+    }
+
 
 }

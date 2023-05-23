@@ -48,7 +48,7 @@
                             <items>
                                 <MenuItem fx:id="cozinha" mnemonicParsing="false" onAction="#goCozinha" text="Cozinha" />
                                 <MenuItem fx:id="pedido" mnemonicParsing="false" onAction="#goPedido" text="Pedido" />
-                                <MenuItem fx:id="caixa" mnemonicParsing="false" text="Caixa" />
+                                <MenuItem fx:id="caixa" mnemonicParsing="false" onAction="#goCaixa" text="Caixa" />
                         <MenuItem fx:id="administracao" mnemonicParsing="false" onAction="#goAdmin" text="Administração" />
                             </items>
                         </Menu>

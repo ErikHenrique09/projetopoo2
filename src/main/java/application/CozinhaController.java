@@ -136,4 +136,9 @@ public class CozinhaController implements Initializable {
 
     }
 
+    public void goCaixa() throws IOException {
+        app.showSceneCaixa();
+    }
+
+
 }

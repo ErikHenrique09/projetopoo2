@@ -160,4 +160,9 @@ public class AdminFuncionariosController implements Initializable {
 
     }
 
+    public void goCaixa() throws IOException {
+        app.showSceneCaixa();
+    }
+
+
 }
