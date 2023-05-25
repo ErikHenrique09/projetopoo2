@@ -52,6 +52,23 @@ public class MesaDAO implements CRUD<Mesa> {
         return this.entityManager.createQuery("SELECT m FROM Mesa m WHERE m.id =" + id, Mesa.class).getSingleResult();
     }
 
+    public Mesa findByNum(Integer num) {
+        Mesa mesa = this.entityManager.createQuery("SELECT m FROM Mesa m WHERE m.numero =" + num, Mesa.class).getSingleResult();
+
+        if (mesa.getIniMesa() == null){
+            EntityTransaction transaction = this.entityManager.getTransaction();
+
+            transaction.begin();
+            this.entityManager.createQuery("UPDATE Mesa m SET m.iniMesa = CURRENT_DATE WHERE m.idMesa = "+mesa.getId());
+            transaction.commit();
+
+        }
+
+        mesa = this.entityManager.createQuery("SELECT m FROM Mesa m WHERE m.numero =" + num, Mesa.class).getSingleResult();
+
+        return mesa;
+    }
+
     @Override
     public List<Mesa> findAll() {
         return this.entityManager.createQuery("SELECT m FROM Mesa m", Mesa.class).getResultList();

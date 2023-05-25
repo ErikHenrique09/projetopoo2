@@ -1,20 +1,24 @@
 package application;
 
-import com.google.gson.JsonArray;
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import modelo.DAO.CaixaDAO;
+import modelo.DAO.PessoaDAO;
 import util.Compose;
 import util.errors;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import static util.errors.erroAdmin;
 
 public class CaixaController implements Initializable {
 
@@ -31,18 +35,22 @@ public class CaixaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Integer i=0, j=0;
+        int i = 0;
 
         CaixaDAO caixaDAO = new CaixaDAO();
 
-        JsonArray mesas = caixaDAO.exibirDetalhes(null);
+        List<JsonObject> mesas = caixaDAO.exibirDetalhes(null, null);
 
-        for(JsonElement mesa: mesas.getAsJsonArray()){
-            System.out.println(mesa);
+        if (mesas.size() == 0)
+            return;
+
+        for(Object m: mesas.toArray()){
+            JsonObject mesa = new Gson().fromJson(m.toString(), JsonObject.class);
 
             gridMesas.addColumn(1);
             gridMesas.setPrefWidth(gridMesas.getPrefWidth()+gridMesas.getPrefWidth()+30);
-            gridMesas.add(Compose.createVBoxMesa(mesa.getAsJsonObject()),i,0);
+
+            gridMesas.add(Compose.createVBoxMesa(mesa), i, 0);
 
             i++;
         }
@@ -54,15 +62,22 @@ public class CaixaController implements Initializable {
     }
 
     @FXML
-    public void buscarMesa(){
+    public void buscarMesa() {
         CaixaDAO caixaDAO = new CaixaDAO();
-        try {
-            JsonObject j = (JsonObject) caixaDAO.exibirDetalhes(inputMesa.getText()).get(0);
-            idMesa = j.get("idMesa").getAsString();
-            app.showScenePagamento();
-        }catch (Exception e){
-            errors.mesaNEncontrada();
-        }
+            try{
+
+                List<JsonObject> j = caixaDAO.exibirDetalhes(null, inputMesa.getText());
+                JsonElement jsonElement = JsonParser.parseString(String.valueOf(j.get(0)));
+                JsonObject json = jsonElement.getAsJsonObject();
+
+                idMesa = String.valueOf(json.get("idMesa"));
+                app.showScenePagamento(idMesa);
+
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                errors.mesaNEncontrada();
+            }
+
 
     }
 
@@ -74,31 +89,17 @@ public class CaixaController implements Initializable {
         app.showScenePedidos();
     }
 
-    public void goPagamento() throws IOException {
-        System.out.println();
-        if (inputMesa.getText() != null)
-            app.showScenePagamento();
-        else
-            app.showScenePagamento();
-
-    }
-
     public void goAdmin() throws IOException {
-        app.showSceneAdminFuncionarios();
-        //Tirar dps
-        /*app.setIdUser(0L);
         PessoaDAO pesDAO = new PessoaDAO();
         if (pesDAO.validaAdmin(app.getIdUser().toString()))
             app.showSceneAdminFuncionarios();
         else
-            erroAdmin();*/
-
+            erroAdmin();
     }
 
     public void goCaixa() throws IOException {
         app.showSceneCaixa();
     }
-
 
     public App getApp() {
         return app;

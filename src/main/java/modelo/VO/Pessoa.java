@@ -16,7 +16,7 @@ public class Pessoa {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idPessoa")
-    private List<Endereco> enderecos = new ArrayList<Endereco>();
+    private final List<Endereco> enderecos = new ArrayList<Endereco>();
 
     @Column(name = "nome", nullable = false)
     private String nome;
@@ -39,6 +39,9 @@ public class Pessoa {
     @Column(name = "tel2")
     private String tel2;
 
+    @Column(name = "access")
+    private boolean access;
+
     public Pessoa() {
     }
 
@@ -58,14 +61,6 @@ public class Pessoa {
 
     public void setIdPessoa(Long idPessoa) {
         this.idPessoa = idPessoa;
-    }
-
-    public List<Endereco> getEndereco() {
-        return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
     }
 
     public String getSobrenome() {
@@ -134,4 +129,11 @@ public class Pessoa {
         this.tel2 = "tel2Teste";
     }
 
+    public boolean isAccess() {
+        return access;
+    }
+
+    public void setAccess(boolean access) {
+        this.access = access;
+    }
 }

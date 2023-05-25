@@ -16,10 +16,6 @@ public class PedidoDAO implements CRUD<Pedido> {
         this.entityManager = ConexaoHibernate.getInstance();
     }
 
-    public List<Pedido> findAllPendents() {
-        return this.entityManager.createQuery("SELECT pd FROM Pedido pd WHERE fimPedido IS NULL ORDER BY iniPedido", Pedido.class).getResultList();
-    }
-
     @Override
     public void save(Pedido pedido) {
         EntityTransaction transaction = this.entityManager.getTransaction();

@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import modelo.DAO.FuncionarioDAO;
@@ -19,6 +18,8 @@ import modelo.DAO.PessoaDAO;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static util.errors.erroAdmin;
 
 public class AdminFuncionariosController implements Initializable {
 
@@ -35,6 +36,8 @@ public class AdminFuncionariosController implements Initializable {
     @FXML
     private TableColumn<JsonObject, Integer> func;
     @FXML
+    private TableColumn<JsonObject, String> access;
+    @FXML
     private Label outputNome;
     @FXML
     private Label outputEmail;
@@ -49,7 +52,6 @@ public class AdminFuncionariosController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         carregarTableViewFuncionario();
 
         tableViewFuncionarios.getSelectionModel().selectedItemProperty().addListener(
@@ -63,8 +65,12 @@ public class AdminFuncionariosController implements Initializable {
         nome.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("nome").getAsString()));
         email.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("email").getAsString()));
         func.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().get("func").getAsInt()).asObject());
+        access.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("access").getAsString()));
 
         JsonArray jsonArray = funcDAO.exibir();
+
+        if (jsonArray == null)
+            return;
 
         ObservableList<JsonObject> observableListFuncionarios = FXCollections.observableArrayList();
 
@@ -127,11 +133,20 @@ public class AdminFuncionariosController implements Initializable {
     }
 
     @FXML
-    protected void btnRemover() throws IOException {
+    protected void btnRemover(){
 
         if (selectedFuncionario != null) {
             PessoaDAO pesDAO = new PessoaDAO();
             pesDAO.deletById(selectedFuncionario.get("idPessoa").getAsInt());
+            carregarTableViewFuncionario();
+        }
+    }
+
+    @FXML
+    protected void btnLiberaAcesso(){
+        if (selectedFuncionario != null){
+            PessoaDAO pesDAO = new PessoaDAO();
+            pesDAO.liberaAcesso(selectedFuncionario.get("idPessoa").getAsString());
             carregarTableViewFuncionario();
         }
     }
@@ -145,19 +160,16 @@ public class AdminFuncionariosController implements Initializable {
     }
 
     public void goPedido() throws IOException {
+        System.out.println("indo para cozinha de Admin com idpessoa: "+this.app.getIdUser());
         app.showScenePedidos();
     }
 
     public void goAdmin() throws IOException {
-        app.showSceneAdminFuncionarios();
-        //Tirar dps
-        /*app.setIdUser(0L);
         PessoaDAO pesDAO = new PessoaDAO();
         if (pesDAO.validaAdmin(app.getIdUser().toString()))
             app.showSceneAdminFuncionarios();
         else
-            erroAdmin();*/
-
+            erroAdmin();
     }
 
     public void goCaixa() throws IOException {

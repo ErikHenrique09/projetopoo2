@@ -12,7 +12,7 @@ import java.util.List;
 
 @SuppressWarnings("ALL")
 public class PessoaDAO implements CRUD<Pessoa> {
-    //PessoaRN pesRN = new PessoaRN();
+
     EntityManager entityManager;
 
     public PessoaDAO() {
@@ -33,16 +33,14 @@ public class PessoaDAO implements CRUD<Pessoa> {
     public boolean validaUpdateEmail(Pessoa pessoa) {
         try {
             this.entityManager.createQuery(String.format("SELECT p FROM Pessoa p WHERE p.email = '%s' AND p.idPessoa != %d", pessoa.getEmail(), pessoa.getIdPessoa()), Pessoa.class).getSingleResult();
-            System.out.println("Caiu aqui e o email ja existe um fora o da pessoa, logo falso: invalido");
             return false;
         } catch (NoResultException nre) {
-            System.out.println("Caiu aqui e o emai não existe, logo true: valido");
             return true;
         }
     }
 
     @Override
-    public void save(Pessoa pessoa) throws Exception {
+    public void save(Pessoa pessoa){
 
         EntityTransaction transaction = this.entityManager.getTransaction();
         transaction.begin();
@@ -53,8 +51,7 @@ public class PessoaDAO implements CRUD<Pessoa> {
     }
 
     public Pessoa findByEmailSenha(String email, String senha) throws Exception {
-        Pessoa p;
-        TypedQuery<Pessoa> query = this.entityManager.createQuery("SELECT p FROM Pessoa p WHERE p.email = :email AND p.senha = :senha", Pessoa.class);
+        TypedQuery<Pessoa> query = this.entityManager.createQuery("SELECT p FROM Pessoa p WHERE p.email = :email AND p.senha = :senha AND p.access = true", Pessoa.class);
         query.setParameter("email", email);
         query.setParameter("senha", senha);
 
@@ -113,6 +110,18 @@ public class PessoaDAO implements CRUD<Pessoa> {
         }catch(Exception e){
             return false;
         }
+    }
+
+    public void liberaAcesso(String idPessoa){
+        EntityTransaction transaction = this.entityManager.getTransaction();
+
+        transaction.begin();
+        entityManager.createQuery("UPDATE Pessoa p SET p.access = true WHERE p.id = " + idPessoa).executeUpdate();
+        transaction.commit();
+    }
+
+    public String getFuncaoAtual(Long id){
+        return (String) this.entityManager.createQuery("SELECT case when (f.func = 1) then '1' when (f.func = 0) then '0' end FROM Pessoa p INNER JOIN Funcionario f on p.id = f.pessoa.id WHERE p.id = "+id).getSingleResult();
     }
 
 }

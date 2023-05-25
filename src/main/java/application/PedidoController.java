@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import modelo.DAO.*;
 import modelo.VO.ItenPedido;
+import modelo.VO.Mesa;
 import modelo.VO.Pedido;
 import util.Compose;
 import util.errors;
@@ -36,7 +37,9 @@ public class PedidoController implements Initializable {
     private TextField inputMesa;
 
     @FXML
-    protected void cadastrarPedido() throws IOException, InterruptedException {
+    protected void cadastrarPedido() throws IOException {
+
+        System.out.println("Chegando em pedidos com id: "+this.app.getIdUser());
 
         PedidoDAO pedDAO = new PedidoDAO();
         ItenPedidoDAO itemDAO = new ItenPedidoDAO();
@@ -45,27 +48,38 @@ public class PedidoController implements Initializable {
         MesaDAO mesDAO = new MesaDAO();
         Pedido pedido = new Pedido();
 
-        Integer limit = cardDAO.findAll().size();
+        int limit = cardDAO.findAll().size();
 
         if(inputMesa.getText().equals("")) {
             errors.erroSelecionaMesa();
             return;
         }else{
-            pedido.setMesa(mesDAO.find(Integer.valueOf(inputMesa.getText())));
+            try {
+            pedido.setMesa(mesDAO.findByNum(Integer.valueOf(inputMesa.getText())));
+            }catch(NumberFormatException n) {
+                errors.mesaNEncontrada();
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+                Mesa mesa = new Mesa();
+
+                mesa.setNumero(Integer.valueOf(inputMesa.getText()));
+                mesa.iniciarMesa();
+
+                mesDAO.save(mesa);
+                pedido.setMesa(mesa);
+            }
         }
 
         for (Node node : produtosCardapio.getChildren()) {
             GridPane grid = (GridPane) ((VBox) node).getChildren().get(0);// pegando a gridpane das vbox
 
-            Integer i = 0;
+            int i = 0;
             while(i < limit){
                 try {
 
-                    Label produto = (Label) grid.getChildren().get(i + 1);      //Produto
                     TextField qtd = (TextField) grid.getChildren().get(i + 2);  // Qtd
                     CheckBox idCard = (CheckBox) grid.getChildren().get(i + 3); //IdCardapio
 
-                    System.out.println("Entrando...");
                     i += 3;
                     if (!idCard.isSelected())
                         continue;
@@ -87,12 +101,13 @@ public class PedidoController implements Initializable {
                    break;
                 }
             }
-
         }
-
-        app.setIdUser((long) 1);
-        pedido.setFuncionario(funcDAO.find(Math.toIntExact(app.getIdUser())));
-        pedido.setStatus(1);
+        try {
+            pedido.setFuncionario(funcDAO.find(Math.toIntExact(app.getIdUser())));
+            pedido.setStatus(1);
+        }catch(NullPointerException npe){
+            errors.erroFazLogin();
+        }
 
         pedDAO.save(pedido);
 
@@ -102,12 +117,11 @@ public class PedidoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         CardapioDAO cardDAO = new CardapioDAO();
 
         Object[] jsonList = cardDAO.getCardapio().toArray();
 
-        Integer j = 1;
+        int j = 1;
         for (Object json : jsonList) {
             JsonObject jsonObject = new Gson().fromJson(json.toString(), JsonObject.class);
 
@@ -136,15 +150,11 @@ public class PedidoController implements Initializable {
     }
 
     public void goAdmin() throws IOException {
-        app.showSceneAdminFuncionarios();
-        //Tirar dps
-        /*app.setIdUser(0L);
         PessoaDAO pesDAO = new PessoaDAO();
         if (pesDAO.validaAdmin(app.getIdUser().toString()))
             app.showSceneAdminFuncionarios();
         else
-            erroAdmin();*/
-
+            erroAdmin();
     }
 
     public void goCaixa() throws IOException {

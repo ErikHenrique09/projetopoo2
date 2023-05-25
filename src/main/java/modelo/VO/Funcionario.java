@@ -15,10 +15,6 @@ public class Funcionario {
     @JoinColumn(name = "idPessoa")
     private Pessoa pessoa;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCozinha")
-    private Cozinha cozinha;
-
     @Column(name = "func", nullable = false, columnDefinition = "1")
     private Funcoes func;
 

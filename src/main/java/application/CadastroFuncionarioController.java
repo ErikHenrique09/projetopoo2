@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class CadastroFuncionarioController extends errors implements Initializable {
+public class CadastroFuncionarioController implements Initializable {
 
     private String idPessoa = null;
 
@@ -33,6 +33,7 @@ public class CadastroFuncionarioController extends errors implements Initializab
     private PasswordField inputSenha;
     @FXML
     private TextField inputEmail;
+
     @FXML
     private Label msgCadastro;
 
@@ -41,7 +42,7 @@ public class CadastroFuncionarioController extends errors implements Initializab
     }
 
     @FXML
-    protected void btnCadastrarFuncionario() throws Exception {
+    protected void btnCadastrarFuncionario() {
         msgCadastro.setText("");
         PessoaDAO pesDAO;
         PessoaRN RN = new PessoaRN();
@@ -107,35 +108,29 @@ public class CadastroFuncionarioController extends errors implements Initializab
             pessoa = new Pessoa();
 
             pessoa.setNome(nome);
-            System.out.println("nome: " + nome);
             pessoa.setSobrenome(sobrenome);
             pessoa.setEmail(email);
             pessoa.setSenha(senha);
             pessoa.setIdade(idade);
             pessoa.setTel1(telefone);
             pessoa.setTel2(telefone);
+            pessoa.setAccess(false);
 
             app.showSceneCadEnd(RN.validarCadastro(pessoa));
 
         } catch (NoResultException nre) {
             System.out.println("NoResultException: " + nre.getMessage());
-            erroPreenchimento();
-        } catch (NullPointerException npe) {
+            errors.erroPreenchimento();
+        } catch (NullPointerException | NumberFormatException npe) {
             System.out.println("Exception: " + npe.getMessage());
-            erroPreenchimento();
-        } catch (NumberFormatException nfe) {
-            System.out.println("Exception: " + nfe.getMessage());
-            erroPreenchimento();
+            errors.erroPreenchimento();
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
-
             if (e.getMessage().equals("emailExistente"))
-                erroEmail();
+                errors.erroEmail();
             else
-                erroPreenchimento();
+                errors.erroPreenchimento();
         }
-
-
     }
 
     @Override
@@ -151,10 +146,6 @@ public class CadastroFuncionarioController extends errors implements Initializab
     @FXML
     protected void btnVoltar() throws IOException {
         app.voltar();
-    }
-
-    public String getIdPessoa() {
-        return idPessoa;
     }
 
     public void setIdPessoa(String idPessoa) {

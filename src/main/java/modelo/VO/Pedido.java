@@ -21,10 +21,6 @@ public class Pedido {
     private Funcionario funcionario;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCozinha")
-    private Cozinha cozinha;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idMesa")
     private Mesa mesa;
 

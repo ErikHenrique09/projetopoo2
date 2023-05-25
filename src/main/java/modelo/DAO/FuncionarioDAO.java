@@ -18,10 +18,6 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
         this.entityManager = ConexaoHibernate.getInstance();
     }
 
-    public void assignFunction() {
-
-    }
-
     @Override
     public void save(Funcionario funcionario) {
         EntityTransaction transaction = this.entityManager.getTransaction();
@@ -55,7 +51,7 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
 
     @Override
     public Funcionario find(Integer id) {
-        Funcionario func = this.entityManager.createQuery("SELECT f FROM Funcionario f WHERE f.id =" + id, Funcionario.class).getSingleResult();
+        Funcionario func = this.entityManager.createQuery("SELECT f FROM Funcionario f INNER JOIN Pessoa p on f.pessoa.id = p.idPessoa WHERE p.id = "+id+" OR f.id =" + id, Funcionario.class).getSingleResult();
 
         System.out.println(func.getPessoa().getNome());
 
@@ -77,10 +73,11 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
                                 "'idPessoa', p.idPessoa, " +
                                 "'nome', p.nome, " +
                                 "'email', p.email, " +
-                                "'idade', p.email, " +
+                                "'idade', p.idade, " +
                                 "'func', f.func, " +
                                 "'tel1', p.tel1, " +
-                                "'tel2', p.tel2 " +
+                                "'tel2', p.tel2, " +
+                                "'access', case when (p.access = true) then 'Liberado' when (p.access = false) then 'Bloqueado' end "+
                                 ")" +
                                 ")" +
                                 "FROM Funcionario f " +

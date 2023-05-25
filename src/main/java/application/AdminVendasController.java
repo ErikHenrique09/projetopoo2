@@ -12,15 +12,18 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import modelo.DAO.ItenPedidoDAO;
+import modelo.DAO.AdminDAO;
+import modelo.DAO.PessoaDAO;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import static util.errors.erroAdmin;
+
 public class AdminVendasController implements Initializable {
 
-    private final ItenPedidoDAO itenDAO = new ItenPedidoDAO();
+    private final AdminDAO admin = new AdminDAO();
     private App app;
     private JsonObject selectedVenda;
 
@@ -48,12 +51,9 @@ public class AdminVendasController implements Initializable {
     private Label outputFimPed;
     @FXML
     private Label outputDataPed;
-    @FXML
-    private Label outputStatus;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         carregarTableViewVendas();
 
         tableViewVendas.getSelectionModel().selectedItemProperty().addListener(
@@ -65,14 +65,16 @@ public class AdminVendasController implements Initializable {
 
     public void carregarTableViewVendas() {
 
-        funcionario.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("func").getAsString()));
+        funcionario.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("funcionario").getAsString()));
         produto.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().get("produto").getAsString()));
-        quantidade.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().get("quantidade").getAsInt()).asObject());
-        valorFinal.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().get("valFinal").getAsInt()).asObject());
+        quantidade.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().get("qtd").getAsInt()).asObject());
+        valorFinal.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().get("val").getAsInt()).asObject());
 
-        JsonArray jsonArray = itenDAO.exibir(0);
-        //System.out.println(jsonArray);
-        //exit(130);
+        JsonArray jsonArray = admin.listVendas();
+
+        if(jsonArray == null)
+            return;
+
         ObservableList<JsonObject> observableListVendas = FXCollections.observableArrayList();
 
         for (JsonElement element : jsonArray) {
@@ -89,13 +91,12 @@ public class AdminVendasController implements Initializable {
     public void selecionarItemTableViewVendas(JsonObject obj) {
 
         if (obj != null) {
-            outputFunc.setText(String.valueOf(obj.get("func").getAsString()));
+            outputFunc.setText(String.valueOf(obj.get("funcionario").getAsString()));
             outputProd.setText(String.valueOf(obj.get("produto").getAsString()));
-            outputQtd.setText(String.valueOf(obj.get("quantidade").getAsString()));
-            outputValFim.setText(String.valueOf(obj.get("valFinal").getAsString()));
+            outputQtd.setText(String.valueOf(obj.get("qtd").getAsString()));
+            outputValFim.setText("R$"+(obj.get("val").getAsString()));
             outputIniPed.setText(String.valueOf(obj.get("iniPed").getAsString()));
             outputDataPed.setText(String.valueOf(obj.get("dataPed").getAsString()));
-            outputStatus.setText(String.valueOf(obj.get("status").getAsString()));
 
             try {
                 outputFimPed.setText(String.valueOf(obj.get("fimPed").getAsString()));
@@ -111,7 +112,6 @@ public class AdminVendasController implements Initializable {
             outputIniPed.setText("");
             outputFimPed.setText("");
             outputDataPed.setText("");
-            outputStatus.setText("");
         }
     }
 
@@ -124,38 +124,6 @@ public class AdminVendasController implements Initializable {
     public void menuVendas() throws IOException {
         app.showSceneAdminVendas();
     }
-
-    @FXML
-    public void escolhaCozinha() {
-        System.out.println("cozinha");
-    }
-
-
-    /*
-    @FXML
-    protected void btnInserir() throws IOException {
-
-        //app.showSceneCadFunc(null);
-
-    }
-
-    @FXML
-    protected void btnAlterar() throws IOException {
-        if(selectedFuncionario != null) {
-            System.out.println(selectedFuncionario);
-            app.showSceneCadFunc(selectedFuncionario.get("idPessoa").getAsString());
-        }
-    }
-
-    @FXML
-    protected void btnRemover() throws IOException {
-
-        if(selectedFuncionario != null){
-            PessoaDAO pesDAO = new PessoaDAO();
-            pesDAO.deletById(selectedFuncionario.get("idPessoa").getAsInt());
-            carregarTableViewFuncionario();
-        }
-    }*/
 
     public void setApp(App app) {
         this.app = app;
@@ -170,15 +138,11 @@ public class AdminVendasController implements Initializable {
     }
 
     public void goAdmin() throws IOException {
-        app.showSceneAdminFuncionarios();
-        //Tirar dps
-        /*app.setIdUser(0L);
         PessoaDAO pesDAO = new PessoaDAO();
         if (pesDAO.validaAdmin(app.getIdUser().toString()))
             app.showSceneAdminFuncionarios();
         else
-            erroAdmin();*/
-
+            erroAdmin();
     }
 
     public void goCaixa() throws IOException {

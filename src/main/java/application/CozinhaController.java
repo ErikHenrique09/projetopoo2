@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import modelo.DAO.ItenPedidoDAO;
+import modelo.DAO.PessoaDAO;
 import util.Compose;
 
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static util.Compose.getIdVbox;
+import static util.errors.erroAdmin;
 
 public class CozinhaController implements Initializable {
 
@@ -54,7 +56,7 @@ public class CozinhaController implements Initializable {
     // Definir as informações do GridPane dinamicamente
     public void setValoresVBox(JsonArray json) {
 
-        Integer i = 0, j = 0;
+        int i = 0, j = 0;
 
         if (json == null)
             return;
@@ -62,8 +64,6 @@ public class CozinhaController implements Initializable {
         for (JsonElement js : json.getAsJsonArray()) {
 
             JsonObject dados = js.getAsJsonObject();
-            //System.out.println(dados);
-            //System.out.println("{ \"vbox\": \"("+i+","+j+")\", \"idItenPedido\": \""+dados.get("idItenPedido")+"\"}");
 
             VBox vbox = Compose.createVBox("{ \"vbox\": \"(" + i + "," + j + ")\", \"idItenPedido\": \"" + dados.get("idItenPedido") + "\"}", this);
             GridPane gridPane = (GridPane) vbox.getChildren().get(0);   // Pegando a GridPane da VBox
@@ -125,15 +125,11 @@ public class CozinhaController implements Initializable {
     }
 
     public void goAdmin() throws IOException {
-        app.showSceneAdminFuncionarios();
-        //Tirar dps
-        /*app.setIdUser(0L);
         PessoaDAO pesDAO = new PessoaDAO();
         if (pesDAO.validaAdmin(app.getIdUser().toString()))
             app.showSceneAdminFuncionarios();
         else
-            erroAdmin();*/
-
+            erroAdmin();
     }
 
     public void goCaixa() throws IOException {

@@ -127,7 +127,7 @@ public class Compose {
                 try {
                     System.out.println(json.get("idMesa").getAsString());
                     setSelectedMesaId(json.get("idMesa").getAsString());
-                    app.showScenePagamento();
+                    app.showScenePagamento(null);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -160,7 +160,7 @@ public class Compose {
         gridPane.getColumnConstraints().addAll(column1, column2);
         gridPane.getRowConstraints().addAll(row1, row2, row3, row4);
 
-        Label numMesa = createLabelMesa(json.get("idMesa").getAsString(), 54, 247, 20, "System Bold");
+        Label numMesa = createLabelMesa(json.get("numMesa").getAsString(), 54, 247, 20, "System Bold");
         GridPane.setColumnIndex(numMesa, 0);
         GridPane.setRowIndex(numMesa, 0);
 
@@ -189,7 +189,7 @@ public class Compose {
         GridPane innerGridPane = new GridPane();
         innerGridPane.setAlignment(Pos.CENTER_LEFT);
 
-        Integer rowCount = json.get("pedidos").getAsJsonArray().size();
+        int rowCount = json.get("pedidos").getAsJsonArray().size();
         double rowHeight = 20; // Altura das linhas do innerGridPane
         double innerGridPaneHeight = rowCount * rowHeight;
 

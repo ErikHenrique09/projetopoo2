@@ -33,11 +33,10 @@ public class errors {
     }
 
     public static void erroFazLogin(){
-
-        /*Alert a = new Alert(Alert.AlertType.NONE);
+        Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.WARNING);
         a.setContentText("É necessario estar logado para acessar o sistema!!!");
-        a.show();*/
+        a.show();
     }
 
     public static void erroAdmin(){

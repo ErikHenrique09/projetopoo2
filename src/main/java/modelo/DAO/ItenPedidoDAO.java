@@ -61,7 +61,7 @@ public class ItenPedidoDAO implements CRUD<ItenPedido> {
 
     public JsonArray exibir(Integer status) {
         //O status 0 é pra vendas, o status 1 é pra cozinha
-        JsonArray jsonElements = new Gson().fromJson(
+        return new Gson().fromJson(
                 (String) this.entityManager.createQuery(
                         "SELECT " +
                                 "JSON_ARRAYAGG( " +
@@ -89,11 +89,12 @@ public class ItenPedidoDAO implements CRUD<ItenPedido> {
                                 "WHERE i.status = "+ status +
                                 "ORDER BY i.idItenPedido  ASC").getSingleResult(),
                 JsonArray.class);
-        return jsonElements;
+
     }
 
     public void close(ItenPedido item) {
         item.setStatus(0);
+
         update(item);
     }
 

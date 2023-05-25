@@ -18,7 +18,7 @@ public class App extends Application {
     private List<String> url;
     private Integer width = 810;
     private Integer height = 600;
-    private Long idUser = null;
+    private Long idUser;
 
     public static void main(String[] args) {
         launch(args);
@@ -31,30 +31,13 @@ public class App extends Application {
         this.url = new ArrayList<String>();
 
         this.url.add("login");
-        showSceneLogin(); // Exibe a tela de login
-
-        //this.url.add("pedido");
-        //showScenePedidos();
-
-        //url.add("adminFunc");
-        //showSceneAdminFuncionarios();
-
-        //this.url.add("adminVendas");
-        //showSceneAdminVendas();
-
-        //this.url.add("cozinha");
-        //showSceneCozinha();
-
-        //this.url.add("caixa");
-        //showSceneCaixa();
-
-        //this.url.add("pagamento");
-        //showScenePagamento();
+        showSceneLogin(); // Exibe a tela de login, começaremos por ela
 
     }
 
     public void showSceneLogin() throws IOException {
         this.url.add("login");
+
         stage.close();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -293,7 +276,7 @@ public class App extends Application {
 
     }
 
-    public void showScenePagamento() throws IOException {
+    public void showScenePagamento(String idMesa) throws IOException {
 
         if(this.getIdUser() == null)
             errors.erroFazLogin();
@@ -318,6 +301,12 @@ public class App extends Application {
 
         // Passa o objeto 'App' para o controlador da tela cozinha
         controller.setApp(this);
+
+        if(idMesa != null) {
+            System.out.println("PASSANDO ID "+idMesa+" PARA PAGAMENTO CONTROLLER");
+
+            controller.setIdMesa(idMesa);
+        }
 
         stage.setTitle("Pagamento");
         stage.show();
