@@ -1,8 +1,10 @@
 package modelo.DAO;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import modelo.VO.Funcionario;
-
-import jakarta.persistence.*;
 import util.CRUD;
 import util.ConexaoHibernate;
 
@@ -12,10 +14,8 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
 
     EntityManager entityManager;
 
-    public FuncionarioDAO() { this.entityManager = ConexaoHibernate.getInstance(); }
-
-    public void assignFunction(){
-
+    public FuncionarioDAO() {
+        this.entityManager = ConexaoHibernate.getInstance();
     }
 
     @Override
@@ -51,12 +51,38 @@ public class FuncionarioDAO implements CRUD<Funcionario> {
 
     @Override
     public Funcionario find(Integer id) {
-        return this.entityManager.createQuery("SELECT f FROM Funcionario f WHERE f.id ="+id, Funcionario.class).getSingleResult();
+        Funcionario func = this.entityManager.createQuery("SELECT f FROM Funcionario f INNER JOIN Pessoa p on f.pessoa.id = p.idPessoa WHERE p.id = "+id+" OR f.id =" + id, Funcionario.class).getSingleResult();
+
+        System.out.println(func.getPessoa().getNome());
+
+        return func;
     }
 
     @Override
     public List<Funcionario> findAll() {
         return this.entityManager.createQuery("SELECT f FROM Funcionario f", Funcionario.class).getResultList();
+    }
+
+    public JsonArray exibir() {
+        return new Gson().fromJson(
+                this.entityManager.createQuery(
+                        "SELECT " +
+                                "JSON_ARRAYAGG( " +
+                                "JSON_OBJECT( " +
+                                "'idFuncionario', f.idFunc, " +
+                                "'idPessoa', p.idPessoa, " +
+                                "'nome', p.nome, " +
+                                "'email', p.email, " +
+                                "'idade', p.idade, " +
+                                "'func', f.func, " +
+                                "'tel1', p.tel1, " +
+                                "'tel2', p.tel2, " +
+                                "'access', case when (p.access = true) then 'Liberado' when (p.access = false) then 'Bloqueado' end "+
+                                ")" +
+                                ")" +
+                                "FROM Funcionario f " +
+                                "INNER JOIN Pessoa p on p.idPessoa = f.pessoa.id ", String.class).getSingleResult(),
+                JsonArray.class);
     }
 
 }

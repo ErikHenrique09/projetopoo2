@@ -1,14 +1,16 @@
 package modelo.VO;
 
 import jakarta.persistence.*;
+
 @Entity
 
 @Table(name = "Endereco")
 public class Endereco {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEndereco;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idPessoa")
     private Pessoa pessoa;
 
@@ -38,8 +40,12 @@ public class Endereco {
         return idEndereco;
     }
 
-    public void setId(Long id) {
-        this.idEndereco = idEndereco;
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
     public String getBairro() {
@@ -73,4 +79,12 @@ public class Endereco {
     public void setNumero(Integer numero) {
         this.numero = numero;
     }
+
+    public void setTest() {
+        this.bairro = "Cohab";
+        this.rua = "D";
+        this.complemento = "Casa jardim na frente";
+        this.numero = 95;
+    }
+
 }

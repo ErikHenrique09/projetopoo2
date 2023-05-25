@@ -1,8 +1,8 @@
 package modelo.DAO;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import modelo.VO.Pedido;
-
-import jakarta.persistence.*;
 import util.CRUD;
 import util.ConexaoHibernate;
 
@@ -14,10 +14,6 @@ public class PedidoDAO implements CRUD<Pedido> {
 
     public PedidoDAO() {
         this.entityManager = ConexaoHibernate.getInstance();
-    }
-
-    public List<Pedido> findAllPendents() {
-        return this.entityManager.createQuery("SELECT pd FROM Pedido pd WHERE fimPedido IS NULL ORDER BY iniPedido", Pedido.class).getResultList();
     }
 
     @Override
@@ -53,7 +49,7 @@ public class PedidoDAO implements CRUD<Pedido> {
 
     @Override
     public Pedido find(Integer id) {
-        return this.entityManager.createQuery("SELECT p FROM Pessoa p WHERE p.id ="+id, Pedido.class).getSingleResult();
+        return this.entityManager.createQuery("SELECT p FROM Pessoa p WHERE p.id =" + id, Pedido.class).getSingleResult();
     }
 
     @Override

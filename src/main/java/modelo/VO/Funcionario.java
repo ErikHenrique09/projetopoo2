@@ -7,28 +7,27 @@ import jakarta.persistence.*;
 @Table(name = "Funcionario")
 public class Funcionario {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idFunc;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idPessoa")
     private Pessoa pessoa;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCozinha")
-    private Cozinha cozinha;
-
+    @Column(name = "func", nullable = false, columnDefinition = "1")
     private Funcoes func;
 
     public Funcionario() {
     }
+
     public Funcionario(Funcoes func, Pessoa pessoa) {
         this.func = func;
         this.pessoa = pessoa;
     }
 
-    public Long getId() {
-        return idFunc;
+    public Integer getId() {
+        return Math.toIntExact(idFunc);
     }
 
     public void setId(Long id) {

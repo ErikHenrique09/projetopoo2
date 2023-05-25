@@ -22,8 +22,12 @@ public class ItenPedido {
     @Column(name = "qtd", nullable = false)
     private Integer qtd;
 
+    @Column(name = "status", columnDefinition = "1", nullable = false)
+    private Integer status;
+
     public ItenPedido() {
     }
+
     public ItenPedido(Integer qtd) {
         this.qtd = qtd;
     }
@@ -58,5 +62,13 @@ public class ItenPedido {
 
     public void setQtd(Integer qtd) {
         this.qtd = qtd;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

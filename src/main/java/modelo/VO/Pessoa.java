@@ -2,20 +2,27 @@ package modelo.VO;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 
 @Table(name = "Pessoa")
 public class Pessoa {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPessoa;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idEndereco")
-    private Endereco endereco = new Endereco();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idPessoa")
+    private final List<Endereco> enderecos = new ArrayList<Endereco>();
 
     @Column(name = "nome", nullable = false)
     private String nome;
+
+    @Column(name = "sobrenome", nullable = false)
+    private String sobrenome;
 
     @Column(name = "idade", nullable = false)
     private int idade;
@@ -32,11 +39,15 @@ public class Pessoa {
     @Column(name = "tel2")
     private String tel2;
 
+    @Column(name = "access")
+    private boolean access;
+
     public Pessoa() {
     }
 
-    public Pessoa(String nome, Integer idade, String email, String senha, String tel1, String tel2) {
+    public Pessoa(String nome, String sobrenome, Integer idade, String email, String senha, String tel1, String tel2) {
         this.nome = nome;
+        this.sobrenome = sobrenome;
         this.idade = idade;
         this.email = email;
         this.senha = senha;
@@ -52,12 +63,12 @@ public class Pessoa {
         this.idPessoa = idPessoa;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
+    public String getSobrenome() {
+        return nome;
     }
 
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
     public String getNome() {
@@ -106,5 +117,23 @@ public class Pessoa {
 
     public void setTel2(String tel2) {
         this.tel2 = tel2;
+    }
+
+    public void setTest() {
+        this.nome = "Teste";
+        this.sobrenome = "Teste";
+        this.idade = 18;
+        this.email = "emailTeste";
+        this.senha = "senhaTeste";
+        this.tel1 = "tel1teste";
+        this.tel2 = "tel2Teste";
+    }
+
+    public boolean isAccess() {
+        return access;
+    }
+
+    public void setAccess(boolean access) {
+        this.access = access;
     }
 }

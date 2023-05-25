@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="810.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.CozinhaController">
+    <children>
+        <MenuBar fx:id="Areas" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="810.0">
+            <menus>
+                <Menu fx:id="menuAreas" mnemonicParsing="false" text="| | |">
+                    <items>
+                        <MenuItem fx:id="cozinha" mnemonicParsing="false" onAction="#goCozinha" text="Cozinha" />
+                        <MenuItem fx:id="pedido" mnemonicParsing="false" onAction="#goPedido" text="Pedido" />
+                        <MenuItem fx:id="caixa" mnemonicParsing="false" onAction="#goCaixa" text="Caixa" />
+                  <MenuItem fx:id="administracao" mnemonicParsing="false" onAction="#goAdmin" text="Administração" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <VBox alignment="CENTER" prefHeight="70.0" prefWidth="810.0">
+            <children>
+                <GridPane prefHeight="69.0" prefWidth="810.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Label fx:id="labelSelectedItenPedido" alignment="CENTER" contentDisplay="CENTER" layoutX="280.0" layoutY="20.0" prefHeight="21.0" prefWidth="184.0" text="Pedido Selecionado: ">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                            <GridPane.margin>
+                                <Insets />
+                            </GridPane.margin>
+                        </Label>
+                        <Label fx:id="p" alignment="CENTER" contentDisplay="CENTER" text="Pedidos" GridPane.columnIndex="1">
+                            <font>
+                                <Font size="28.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="pedidoPronto" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#pedidoPronto" prefHeight="30.0" prefWidth="79.0" style="-fx-background-color: #6b2020;" text="Pronto" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="2">
+                            <GridPane.margin>
+                                <Insets right="20.0" />
+                            </GridPane.margin>
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="810.0" style="-fx-background-insets: 0; -fx-background-color: transparent; -fx-border-color: transparent;">
+            <content>
+                <GridPane fx:id="gridPedidos" alignment="CENTER" maxHeight="1073.0" maxWidth="810.0" minHeight="10.0" minWidth="10.0" prefHeight="165.0" prefWidth="810.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0" percentWidth="0.0" prefWidth="260.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0" percentWidth="0.0" prefWidth="260.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="345.0" minWidth="0.0" percentWidth="0.0" prefWidth="260.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+            </content>
+        </ScrollPane>
+    </children>
+</VBox>

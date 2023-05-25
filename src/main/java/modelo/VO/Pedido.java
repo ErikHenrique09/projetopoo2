@@ -1,24 +1,24 @@
 package modelo.VO;
 
 import jakarta.persistence.*;
+import modelo.DAO.ItenPedidoDAO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Entity
 
 @Table(name = "Pedido")
 public class Pedido {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPedido;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idFunc")
     private Funcionario funcionario;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCozinha")
-    private Cozinha cozinha;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idMesa")
@@ -32,6 +32,9 @@ public class Pedido {
 
     @Column(name = "fimPedido", nullable = true)
     private Calendar fimPedido;
+
+    @Column(name = "status", columnDefinition = "1")
+    private Integer status;
 
     public Pedido() {
         this.iniPedido = Calendar.getInstance();
@@ -68,11 +71,8 @@ public class Pedido {
     }
 
     public List<ItenPedido> getItensPedido() {
-        return itensPedido;
-    }
-
-    public void setItensPedido(List<ItenPedido> itensPedido) {
-        this.itensPedido = itensPedido;
+        ItenPedidoDAO item = new ItenPedidoDAO();
+        return item.findAllByPed(this.idPedido);
     }
 
     public Calendar getIniPedido() {
@@ -89,5 +89,13 @@ public class Pedido {
 
     public void setFimPedido(Calendar fimPedido) {
         this.fimPedido = fimPedido;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
